@@ -1,16 +1,38 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+
+	const {
+		onPrompt,
+		createMode = false
+	}: {
+		onPrompt: (args: { prompt: string; model: string }) => void;
+		createMode?: boolean;
+	} = $props();
+
+	let promptValue = $state('');
+
+	const dispatchPrompt = () => {
+		onPrompt({
+			prompt: promptValue,
+			model: 'gem-0.5.1'
+		});
+	};
+</script>
+
 <div class="wrap">
-	<div class="inner">
-		<textarea class="textInput" placeholder="Ask Anything"></textarea>
+	<form class="inner" method="post" action="/chat?/createChat" use:enhance>
+		<textarea name="prompt" class="textInput" bind:value={promptValue} placeholder="Ask Anything..."
+		></textarea>
 		<div class="bottomBar">
 			<div class="optionHolder">
-				<button> Search </button>
-				<button> Files </button>
+				<button type="button"> Search </button>
+				<button type="button"> Files </button>
 			</div>
 			<div class="submit">
-				<button> Go </button>
+				<button type={createMode ? 'submit' : 'button'} onclick={dispatchPrompt}> Go </button>
 			</div>
 		</div>
-	</div>
+	</form>
 </div>
 
 <style lang="scss">

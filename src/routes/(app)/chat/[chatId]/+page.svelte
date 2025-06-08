@@ -1,19 +1,9 @@
 <script>
 	import ChatInput from '$lib/components/ChatInput.svelte';
-	import { scale } from 'svelte/transition';
 </script>
 
 <div class="newChat">
-	<div
-		class="welcome"
-		transition:scale|global={{
-			delay: 0,
-			duration: 25
-		}}
-	>
-		<h2>Hello</h2>
-		<p>Let me know how I can help!</p>
-	</div>
+	<div class="chatLog"></div>
 	<ChatInput
 		onPrompt={() => {
 			console.log('a');
@@ -32,7 +22,7 @@
 		height: 100%;
 	}
 
-	.welcome {
+	.chatLog {
 		display: flex;
 		align-items: center;
 		justify-content: center;

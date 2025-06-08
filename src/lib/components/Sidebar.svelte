@@ -1,6 +1,6 @@
 <nav class="sidebar">
 	<h3 class="logo">CF Chat</h3>
-	<button> Create Chat </button>
+	<a href="/"> Create Chat </a>
 </nav>
 
 <style lang="scss">

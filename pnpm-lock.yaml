@@ -20,6 +20,9 @@ importers:
       sass-embedded:
         specifier: ^1.89.1
         version: 1.89.1
+      zod:
+        specifier: ^3.25.56
+        version: 3.25.56
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.5
@@ -1743,6 +1746,9 @@ packages:
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
 
+  zod@3.25.56:
+    resolution: {integrity: sha512-rd6eEF3BTNvQnR2e2wwolfTmUTnp70aUTqr0oaGbHifzC3BKJsoV+Gat8vxUMR1hwOKBs6El+qWehrHbCpW6SQ==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -3086,3 +3092,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zimmerframe@1.1.2: {}
+
+  zod@3.25.56: {}
