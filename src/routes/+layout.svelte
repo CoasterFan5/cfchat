@@ -6,7 +6,7 @@
 {@render children?.()}
 
 <style lang="scss">
-	// A very creative color pallete
+	// A very creative color palette
 	:global(body) {
 		--background: #1e1f20;
 		--text: #f1f1f1;
