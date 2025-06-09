@@ -1,26 +1,31 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import type { EventHandler } from 'svelte/elements';
 
-	const {
+	let {
 		onPrompt,
-		createMode = false
+		createMode = false,
+		onsubmit,
+		promptValue = $bindable('')
 	}: {
-		onPrompt: (args: { prompt: string; model: string }) => void;
+		onPrompt?: (args: { prompt: string; model: string }) => void;
 		createMode?: boolean;
+		onsubmit?: EventHandler<SubmitEvent, HTMLFormElement>;
+		promptValue?: string;
 	} = $props();
 
-	let promptValue = $state('');
-
 	const dispatchPrompt = () => {
-		onPrompt({
-			prompt: promptValue,
-			model: 'gem-0.5.1'
-		});
+		if (onPrompt) {
+			onPrompt({
+				prompt: promptValue,
+				model: 'gem-0.5.1'
+			});
+		}
 	};
 </script>
 
 <div class="wrap">
-	<form class="inner" method="post" action="/chat?/createChat" use:enhance>
+	<form class="inner" method="post" action="/chat?/createChat" {onsubmit}>
 		<textarea name="prompt" class="textInput" bind:value={promptValue} placeholder="Ask Anything..."
 		></textarea>
 		<div class="bottomBar">

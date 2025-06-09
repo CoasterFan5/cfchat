@@ -1,36 +1,90 @@
-<script>
+<script lang="ts">
+	import { Chat } from '@ai-sdk/svelte';
+
+	const chat = new Chat({
+		api: '/api/gemini',
+		maxSteps: 25
+	});
+
+	chat.append({
+		content: `You are CF Chat. Keep messages consise and to the point.
+			Aim for accuracy and teaching.
+			You may use tools but the end goal is to do what the users asks.
+			Before giving an answer, carefully analyze what tools you have available and ensure they are not sufficient to accomplish the request.
+			`,
+		role: 'system'
+	});
+
 	import ChatInput from '$lib/components/ChatInput.svelte';
+	import AssistantMessage from './AssistantMessage.svelte';
 </script>
 
-<div class="newChat">
-	<div class="chatLog"></div>
-	<ChatInput
-		onPrompt={() => {
-			console.log('a');
-		}}
-		createMode={true}
-	/>
+<div class="chatWrap">
+	<div class="chatLog">
+		{#each chat.messages as message (message.id)}
+			{#if message.role == 'user'}
+				<div class="messageWrap userMessage">
+					<div class="message">
+						{message.content}
+					</div>
+				</div>
+			{:else if message.role == 'assistant'}
+				<AssistantMessage {message} />
+			{/if}
+			{JSON.stringify(message.annotations)}
+		{/each}
+	</div>
+	<ChatInput onsubmit={chat.handleSubmit} bind:promptValue={chat.input} createMode={true} />
 </div>
 
 <style>
-	.newChat {
+	.chatWrap {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	.chatLog {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		flex-direction: column;
 		flex-grow: 1;
+		width: 100%;
+		max-width: 90ch;
+		padding: 5rem 5rem 0 5rem;
 
 		h2 {
 			margin: 0;
 		}
+	}
+
+	.messageWrap {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
+
+	.userMessage {
+		justify-content: end;
+		.message {
+			background: var(--secondary);
+		}
+	}
+
+	.aiMessage {
+		justify-content: start;
+	}
+
+	.message {
+		max-width: 70ch;
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+		text-wrap-mode: wrap;
 	}
 </style>
