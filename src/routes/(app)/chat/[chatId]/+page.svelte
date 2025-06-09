@@ -26,7 +26,17 @@
 		chat.messages = JSON.parse(data.thread.messages);
 	});
 
-	$effect(() => console.log(chat.status));
+	let reloaded = false;
+	$effect(() => {
+		if (!reloaded) {
+			if (chat.messages[chat.messages.length - 1].role == 'user') {
+				console.log('Last message is from a user');
+				chat.reload();
+				console.log(`reloaded the chat`);
+				reloaded = true;
+			}
+		}
+	});
 </script>
 
 <div class="chatWrap">
