@@ -18,7 +18,7 @@ export const createSession = async (userId: string, cookies: Cookies) => {
 	cookies.set('session', newSession[0].token, {
 		path: '/',
 		secure: !dev,
-		sameSite: 'strict',
+		sameSite: 'lax',
 		expires: new Date(Date.now() + NINETY_DAYS)
 	});
 

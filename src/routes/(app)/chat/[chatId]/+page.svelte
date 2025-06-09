@@ -17,15 +17,16 @@
 		})
 	);
 
+	chat = new Chat({
+		api: `/chat/${data.thread.id}`,
+		maxSteps: 25
+	});
+
 	$effect(() => {
-		chat = new Chat({
-			api: `/chat/${data.thread.id}`,
-			maxSteps: 25
-		});
 		chat.messages = JSON.parse(data.thread.messages);
 	});
 
-	let submitPromptButton: HTMLButtonElement | undefined = $state();
+	$effect(() => console.log(chat.status));
 </script>
 
 <div class="chatWrap">
@@ -44,14 +45,7 @@
 		{/each}
 	</div>
 
-	<ChatInput
-		onPrompt={() => {
-			submitPromptButton?.click();
-		}}
-		bind:promptValue={chat.input}
-		onsubmit={chat.handleSubmit}
-		createMode={true}
-	/>
+	<ChatInput bind:promptValue={chat.input} onsubmit={chat.handleSubmit} createMode={true} />
 </div>
 
 <style>
