@@ -1,6 +1,8 @@
 <script>
+	import { goto } from '$app/navigation';
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import { scale } from 'svelte/transition';
+	import { z } from 'zod/v4';
 </script>
 
 <div class="newChat">
@@ -15,10 +17,24 @@
 		<p>Let me know how I can help!</p>
 	</div>
 	<ChatInput
-		onPrompt={() => {
-			console.log('a');
+		onPrompt={async () => {
+			const newChatReq = await fetch('/chat', {
+				method: 'post'
+			});
+			const res = await newChatReq.json();
+			const parsed = z
+				.object({
+					threadId: z.string()
+				})
+				.safeParse(res);
+
+			if (parsed.error) {
+				return;
+			}
+
+			goto(`/chat/${parsed.data.threadId}`);
 		}}
-		createMode={true}
+		createMode={false}
 	/>
 </div>
 

@@ -15,6 +15,34 @@
       "when": 1749396196799,
       "tag": "0001_medical_ironclad",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749431938664,
+      "tag": "0002_polite_darkhawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1749432057788,
+      "tag": "0003_chubby_mordo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1749432078680,
+      "tag": "0004_oval_nuke",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1749435570633,
+      "tag": "0005_tough_marvel_apes",
+      "breakpoints": true
     }
   ]
 }

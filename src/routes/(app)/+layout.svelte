@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Sidebar from '$lib/components/Sidebar.svelte';
 
-	const { children } = $props();
+	const { children, data } = $props();
 </script>
 
 <div class="wrap">
-	<Sidebar />
+	<Sidebar threadList={data.threadList} />
 	<div class="content">
 		{@render children?.()}
 	</div>

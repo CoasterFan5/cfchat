@@ -1,6 +1,20 @@
+<script lang="ts">
+	const {
+		threadList
+	}: {
+		threadList: {
+			id: string;
+			name: string;
+		}[];
+	} = $props();
+</script>
+
 <nav class="sidebar">
 	<h3 class="logo">CF Chat</h3>
 	<a href="/" class="createChat"> Create Chat </a>
+	{#each threadList as thread (thread.id)}
+		<a href="/chat/{thread.id}">{thread.name}</a>
+	{/each}
 </nav>
 
 <style lang="scss">

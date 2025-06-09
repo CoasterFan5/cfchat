@@ -4,6 +4,8 @@ import { db } from './db';
 import { sessionsTable } from './db/schema';
 import { dev } from '$app/environment';
 
+const NINETY_DAYS = 90 * 24 * 60 * 60 * 1000;
+
 export const createSession = async (userId: string, cookies: Cookies) => {
 	const newSession = await db
 		.insert(sessionsTable)
@@ -15,9 +17,12 @@ export const createSession = async (userId: string, cookies: Cookies) => {
 
 	cookies.set('session', newSession[0].token, {
 		path: '/',
-		secure: dev,
-		sameSite: 'strict'
+		secure: !dev,
+		sameSite: 'strict',
+		expires: new Date(Date.now() + NINETY_DAYS)
 	});
+
+	console.log(newSession[0]);
 
 	return newSession[0];
 };

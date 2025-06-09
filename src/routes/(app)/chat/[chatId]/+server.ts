@@ -1,15 +1,18 @@
 import { GOOGLE_TOKEN } from '$env/static/private';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText, tool } from 'ai';
+import { appendResponseMessages, streamText, tool } from 'ai';
 import { z } from 'zod';
 import * as mj from 'mathjs';
 import * as cheerio from 'cheerio';
+import { db } from '$lib/server/db/index.js';
+import { threadsTable } from '$lib/server/db/schema.js';
+import { eq } from 'drizzle-orm';
 
 const goog = createGoogleGenerativeAI({
 	apiKey: GOOGLE_TOKEN
 });
 
-export const POST = async ({ request }) => {
+export const POST = async ({ request, params }) => {
 	console.log(`Gateway Request`);
 
 	const { messages } = await request.json();
@@ -67,15 +70,33 @@ export const POST = async ({ request }) => {
 						)
 				}),
 				execute: async ({ expression }) => {
-					return mj.evaluate(expression);
+					try {
+						return mj.evaluate(expression);
+					} catch (e) {
+						return `Math failed with error ${e}`;
+					}
 				}
 			})
 		},
 		toolChoice: 'auto',
 		onError: (e) => {
 			console.error(e);
+		},
+		onFinish: async ({ response }) => {
+			const newMessagesField = appendResponseMessages({
+				messages,
+				responseMessages: response.messages
+			});
+
+			await db
+				.update(threadsTable)
+				.set({
+					messages: JSON.stringify(newMessagesField)
+				})
+				.where(eq(threadsTable.id, params.chatId));
 		}
 	});
 
+	res.consumeStream();
 	return res.toDataStreamResponse({});
 };

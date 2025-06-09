@@ -1,28 +1,36 @@
 <script lang="ts">
 	import { Chat } from '@ai-sdk/svelte';
-
-	const chat = new Chat({
-		api: '/api/gemini',
-		maxSteps: 25
-	});
-
-	chat.append({
-		content: `You are CF Chat. Deliver brief, precise, and educational information. Always assess whether using tools can improve the quality or relevance of your response. The user's request is paramount and must always be met.`,
-		role: 'system'
-	});
-	chat.append({
-		content: 'Hello!',
-		role: 'user'
-	});
-	chat.reload();
-
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import AssistantMessage from './AssistantMessage.svelte';
+	import type { PageData } from './$types';
+
+	const {
+		data
+	}: {
+		data: PageData;
+	} = $props();
+
+	let chat = $state(
+		new Chat({
+			api: `/chat/${data.thread.id}`,
+			maxSteps: 25
+		})
+	);
+
+	$effect(() => {
+		chat = new Chat({
+			api: `/chat/${data.thread.id}`,
+			maxSteps: 25
+		});
+		chat.messages = JSON.parse(data.thread.messages);
+	});
+
+	let submitPromptButton: HTMLButtonElement | undefined = $state();
 </script>
 
 <div class="chatWrap">
 	<div class="chatLog">
-		{#each chat.messages as message (message.id)}
+		{#each chat.messages as message, index (index)}
 			{#if message.role == 'user'}
 				<div class="messageWrap userMessage">
 					<div class="message">
@@ -35,7 +43,15 @@
 			{JSON.stringify(message.annotations)}
 		{/each}
 	</div>
-	<ChatInput onsubmit={chat.handleSubmit} bind:promptValue={chat.input} createMode={true} />
+
+	<ChatInput
+		onPrompt={() => {
+			submitPromptButton?.click();
+		}}
+		bind:promptValue={chat.input}
+		onsubmit={chat.handleSubmit}
+		createMode={true}
+	/>
 </div>
 
 <style>
@@ -63,6 +79,13 @@
 		h2 {
 			margin: 0;
 		}
+	}
+
+	.chatForm {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.messageWrap {
