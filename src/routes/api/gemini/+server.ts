@@ -16,7 +16,7 @@ export const POST = async ({ request }) => {
 
 	const res = streamText({
 		maxSteps: 25,
-		model: goog('gemini-2.5-flash-preview-04-17'),
+		model: goog('gemini-2.0-flash'),
 		messages,
 		tools: {
 			time: tool({

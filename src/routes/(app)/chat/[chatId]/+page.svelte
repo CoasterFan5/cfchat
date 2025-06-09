@@ -7,13 +7,14 @@
 	});
 
 	chat.append({
-		content: `You are CF Chat. Keep messages consise and to the point.
-			Aim for accuracy and teaching.
-			You may use tools but the end goal is to do what the users asks.
-			Before giving an answer, carefully analyze what tools you have available and ensure they are not sufficient to accomplish the request.
-			`,
+		content: `You are CF Chat. Deliver brief, precise, and educational information. Always assess whether using tools can improve the quality or relevance of your response. The user's request is paramount and must always be met.`,
 		role: 'system'
 	});
+	chat.append({
+		content: 'Hello!',
+		role: 'user'
+	});
+	chat.reload();
 
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import AssistantMessage from './AssistantMessage.svelte';
