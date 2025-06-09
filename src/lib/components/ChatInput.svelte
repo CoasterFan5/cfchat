@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import UpArrow from '~icons/ph/arrow-up';
 	import type { EventHandler } from 'svelte/elements';
 
 	let {
@@ -29,12 +29,11 @@
 		<textarea name="prompt" class="textInput" bind:value={promptValue} placeholder="Ask Anything..."
 		></textarea>
 		<div class="bottomBar">
-			<div class="optionHolder">
-				<button type="button"> Search </button>
-				<button type="button"> Files </button>
-			</div>
+			<div class="optionHolder"></div>
 			<div class="submit">
-				<button type={createMode ? 'submit' : 'button'} onclick={dispatchPrompt}> Go </button>
+				<button class="iconButton" type={createMode ? 'submit' : 'button'} onclick={dispatchPrompt}>
+					<UpArrow />
+				</button>
 			</div>
 		</div>
 	</form>
@@ -42,17 +41,20 @@
 
 <style lang="scss">
 	.wrap {
-		padding: 0.25rem 0.25rem 0 0.25rem;
+		padding: 0.25rem 5rem 1rem 5rem;
 		border-radius: 0.5rem 0.5rem 0 0;
-		background: var(--secondary);
-		width: 50ch;
-		max-width: 100%;
+		width: 100%;
+		max-width: 90ch;
+		height: 8rem;
 	}
 
 	.inner {
-		background: var(--background);
-		border-radius: 0.25rem 0.25rem 0 0;
-		padding: 0.5rem;
+		border-radius: 1rem;
+		border: 1px solid var(--primary);
+		backdrop-filter: blur(3px);
+		padding: 1rem;
+		height: 100%;
+		background: var(--primary-10);
 	}
 
 	.textInput {
@@ -70,5 +72,19 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-betweenpace;
+	}
+
+	.iconButton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1/1;
+		border: 1px solid var(--primary);
+		background: var(--primary-10);
+		color: var(--text);
+		outline: 0px;
+		border-radius: 0.25rem;
+		cursor: pointer;
+		font-size: 1rem;
 	}
 </style>
