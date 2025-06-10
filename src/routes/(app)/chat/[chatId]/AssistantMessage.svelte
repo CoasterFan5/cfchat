@@ -7,6 +7,8 @@
 	}: {
 		message: UIMessage;
 	} = $props();
+
+	let toolList = $derived(message.parts.filter((mp) => mp.type == 'tool-invocation'));
 </script>
 
 <div class="message">
@@ -17,10 +19,17 @@
 			{/if}
 		{/each}
 	</div>
-	{#if message.toolInvocations}
-		{#each message.toolInvocations as tooluse, index (index)}
-			{tooluse.toolName}
-		{/each}
+	{#if toolList.length > 0}
+		<div class="tools">
+			Tools:
+			{#each toolList as tu (tu.toolInvocation.toolCallId)}
+				<div class="toolUse">
+					{tu.toolInvocation.toolName}
+				</div>
+			{:else}
+				<span>None</span>
+			{/each}
+		</div>
 	{/if}
 </div>
 
@@ -34,5 +43,20 @@
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 		text-wrap-mode: wrap;
+	}
+
+	.toolUse {
+		display: flex;
+		background: var(--secondary);
+		padding: 0.25rem;
+		font-size: 0.8rem;
+		border-radius: 0.25rem;
+	}
+
+	.tools {
+		display: flex;
+		gap: 0.5rem;
+		flex-direction: row;
+		align-items: center;
 	}
 </style>
