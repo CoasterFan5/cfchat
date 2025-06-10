@@ -26,41 +26,65 @@
 </script>
 
 <div class="wrap">
-	<form class="inner" method="post" action="/chat?/createChat" {onsubmit}>
-		<textarea name="prompt" class="textInput" bind:value={promptValue} placeholder="Ask Anything..."
-		></textarea>
-		<div class="bottomBar">
-			<div class="optionHolder">
-				<button type="button" class="selectModel"> Gemini-2.5-flash <DropDownArrow /></button>
-			</div>
-			<div class="submit">
-				<button class="iconButton" type={createMode ? 'submit' : 'button'} onclick={dispatchPrompt}>
-					<UpArrow />
-				</button>
-			</div>
+	<div class="innerWrap">
+		<div class="borderDiv">
+			<form class="inner" method="post" action="/chat?/createChat" {onsubmit}>
+				<textarea
+					name="prompt"
+					class="textInput"
+					bind:value={promptValue}
+					placeholder="Ask Anything..."
+				></textarea>
+				<div class="bottomBar">
+					<div class="optionHolder">
+						<button type="button" class="selectModel"> Gemini-2.5-flash <DropDownArrow /></button>
+					</div>
+					<div class="submit">
+						<button
+							class="iconButton"
+							type={createMode ? 'submit' : 'button'}
+							onclick={dispatchPrompt}
+						>
+							<UpArrow />
+						</button>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
+	</div>
 </div>
 
 <style lang="scss">
 	.wrap {
-		padding: 0.25rem 5rem 1rem 5rem;
+		padding: 0.25rem 5rem 0rem 5rem;
 		border-radius: 0.5rem 0.5rem 0 0;
 		width: 100%;
 		max-width: 90ch;
 		height: 8rem;
 	}
 
-	.inner {
-		border-radius: 1rem;
-		height: 6.75rem;
-		border: 1px solid var(--primary);
-		backdrop-filter: blur(3px);
-		padding: 0.75rem;
+	.innerWrap {
+		border-radius: 1rem 1rem 0 0;
 		height: 100%;
-		background: var(--primary-10);
+		background: var(--secondary);
+	}
+
+	.borderDiv {
+		height: 100%;
+		border-radius: 1rem 1rem 0 0;
+		overflow: hidden;
+		padding: 1px;
+		background-image: linear-gradient(-15deg, transparent, rgba(255, 255, 255, 0.2));
+	}
+
+	.inner {
+		padding: 0.75rem;
+		height: 6.75rem;
+		border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
+		background: var(--secondary);
 	}
 
 	.textInput {

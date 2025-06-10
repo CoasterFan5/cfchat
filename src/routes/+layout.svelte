@@ -8,12 +8,12 @@
 <style lang="scss">
 	// A very creative color palette
 	:global(body) {
-		--background: #1e1f20;
+		--background: #1b1b1b;
 		--text: #f1f1f1;
 
-		--primary: #fb3a0d;
+		--primary: #ff7518;
 		--primary-10: color-mix(in srgb, var(--primary) 10%, transparent 90%);
-		--secondary: #131315;
+		--secondary: #2f2f2f;
 
 		background: var(--background);
 		color: var(--text);

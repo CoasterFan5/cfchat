@@ -1,4 +1,6 @@
 <script lang="ts">
+	/* eslint-disable svelte/no-at-html-tags */
+
 	import hljs from 'highlight.js/lib/common';
 	import 'highlight.js/styles/atom-one-dark.css';
 

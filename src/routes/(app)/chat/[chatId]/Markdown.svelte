@@ -23,6 +23,7 @@
 
 	let root = $derived(fromMarkdown(markdown));
 
+	//eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const renderers: Record<string, (token: any) => ReturnType<import('svelte').Snippet>> = {
 		strong: strongRender,
 		text: textrender,

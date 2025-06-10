@@ -12,9 +12,11 @@
 <nav class="sidebar">
 	<h3 class="logo">CF Chat</h3>
 	<a href="/" class="createChat"> Create Chat </a>
-	{#each threadList as thread (thread.id)}
-		<a href="/chat/{thread.id}">{thread.name}</a>
-	{/each}
+	<div class="threads">
+		{#each threadList as thread (thread.id)}
+			<a href="/chat/{thread.id}" class="threadLink">{thread.name}</a>
+		{/each}
+	</div>
 </nav>
 
 <style lang="scss">
@@ -46,5 +48,27 @@
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 		font-size: 0.8rem;
+	}
+
+	.threadLink {
+		text-decoration: none;
+		color: var(--text);
+		width: 100%;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		opacity: 0.8;
+		transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
+
+		&:hover {
+			opacity: 1;
+			background: var(--primary-10);
+		}
+	}
+
+	.threads {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		margin-top: 1rem;
 	}
 </style>
