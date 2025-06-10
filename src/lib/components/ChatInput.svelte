@@ -23,6 +23,13 @@
 			});
 		}
 	};
+
+	let submitButton: HTMLButtonElement | undefined = $state();
+	const keyboardHelper = (e: KeyboardEvent) => {
+		if (e.key == 'Enter' && !e.shiftKey) {
+			submitButton?.click();
+		}
+	};
 </script>
 
 <div class="wrap">
@@ -34,6 +41,7 @@
 					class="textInput"
 					bind:value={promptValue}
 					placeholder="Ask Anything..."
+					onkeypress={keyboardHelper}
 				></textarea>
 				<div class="bottomBar">
 					<div class="optionHolder">
@@ -44,6 +52,7 @@
 							class="iconButton"
 							type={createMode ? 'submit' : 'button'}
 							onclick={dispatchPrompt}
+							bind:this={submitButton}
 						>
 							<UpArrow />
 						</button>
@@ -111,9 +120,9 @@
 		align-items: center;
 		justify-content: center;
 		aspect-ratio: 1/1;
-		border: 1px solid var(--primary);
-		background: var(--primary-10);
+		background: var(--primary);
 		color: var(--text);
+		border: 0px;
 		outline: 0px;
 		border-radius: 0.25rem;
 		cursor: pointer;
