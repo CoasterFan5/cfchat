@@ -1,7 +1,7 @@
 <script lang="ts">
 	import UpArrow from '~icons/ph/arrow-up';
-	import DropDownArrow from '~icons/ph/caret-down';
 	import type { EventHandler } from 'svelte/elements';
+	import ModelPicker from './ModelPicker.svelte';
 
 	let {
 		onPrompt,
@@ -45,7 +45,7 @@
 				></textarea>
 				<div class="bottomBar">
 					<div class="optionHolder">
-						<button type="button" class="selectModel"> Gemini-2.5-flash <DropDownArrow /></button>
+						<ModelPicker currentModel="gem2.5flash" />
 					</div>
 					<div class="submit">
 						<button
@@ -81,7 +81,6 @@
 	.borderDiv {
 		height: 100%;
 		border-radius: 1rem 1rem 0 0;
-		overflow: hidden;
 		padding: 1px;
 		background-image: linear-gradient(-15deg, transparent, rgba(255, 255, 255, 0.2));
 	}
@@ -104,6 +103,7 @@
 	}
 
 	.optionHolder {
+		position: relative;
 		flex-grow: 1;
 	}
 
@@ -142,5 +142,12 @@
 		padding: 0.4rem;
 		border-radius: 0.25rem;
 		cursor: pointer;
+	}
+
+	.modelOptionWrap {
+		position: absolute;
+		left: 0px;
+		bottom: calc(100% + 0.25rem);
+		z-index: 100000;
 	}
 </style>
