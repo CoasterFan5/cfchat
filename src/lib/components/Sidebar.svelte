@@ -58,6 +58,10 @@
 		border-radius: 0.25rem;
 		opacity: 0.8;
 		transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		text-wrap-mode: nowrap;
+		min-height: 2rem;
 
 		&:hover {
 			opacity: 1;
@@ -68,7 +72,12 @@
 	.threads {
 		display: flex;
 		flex-direction: column;
+		align-items: start;
+		justify-content: start;
+		height: 100%;
+		flex-grow: 1;
 		gap: 0.25rem;
 		margin-top: 1rem;
+		overflow-y: auto;
 	}
 </style>

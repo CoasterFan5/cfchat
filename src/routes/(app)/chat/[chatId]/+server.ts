@@ -39,7 +39,7 @@ export const POST = async ({ request, params }) => {
 					link: z
 						.string()
 						.describe(
-							'This is teh url of the webpage to open, for example: https://example.com. **IMPORTANT** Only provide a valid URL, anything else will result in an error.'
+							'This is the url of the webpage to open, for example: https://example.com. **IMPORTANT** Only provide a valid URL, anything else will result in an error.'
 						)
 				}),
 				execute: async ({ link }) => {
@@ -75,6 +75,30 @@ export const POST = async ({ request, params }) => {
 					} catch (e) {
 						return `Math failed with error ${e}`;
 					}
+				}
+			}),
+			nameChat: tool({
+				description: `This tool renames the chat window. The chat name starts out as "New Thread".
+				**Crucially, after the user's FIRST non-greeting message (i.e., not a "hello" or "hi"), you MUST rename the chat BEFORE generating your response.**
+				Identify the intent or subject of the users message, and use that to generate a chat name.
+				**IMPORTANT: You should only rename the chat once.**
+				`,
+				parameters: z.object({
+					newName: z
+						.string()
+						.describe(
+							"A concise, descriptive name for the chat, up to 5 words, based on the user's first substantive message."
+						)
+				}),
+				execute: async ({ newName }) => {
+					await db
+						.update(threadsTable)
+						.set({
+							name: newName
+						})
+						.where(eq(threadsTable.id, params.chatId));
+
+					return `Chat name set to ${newName}`;
 				}
 			})
 		},
