@@ -7,6 +7,7 @@ import * as cheerio from 'cheerio';
 import { db } from '$lib/server/db/index.js';
 import { threadsTable } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
+import { error } from '@sveltejs/kit';
 
 const goog = createGoogleGenerativeAI({
 	apiKey: GOOGLE_TOKEN
@@ -15,7 +16,17 @@ const goog = createGoogleGenerativeAI({
 export const POST = async ({ request, params }) => {
 	console.log(`Gateway Request`);
 
-	const { messages } = await request.json();
+	const chatInfoPromise = db.select().from(threadsTable).where(eq(threadsTable.id, params.chatId));
+	const requestJsonPromise = request.json();
+
+	const chatInfo = await chatInfoPromise;
+	if (!chatInfo[0]) {
+		return error(404, {
+			message: 'Chat not found'
+		});
+	}
+	console.log(chatInfo);
+	const { messages } = await requestJsonPromise;
 
 	const res = streamText({
 		maxSteps: 25,
@@ -78,10 +89,8 @@ export const POST = async ({ request, params }) => {
 				}
 			}),
 			nameChat: tool({
-				description: `This tool renames the chat window. The chat name starts out as "New Thread".
-				**Crucially, after the user's FIRST non-greeting message (i.e., not a "hello" or "hi"), you MUST rename the chat BEFORE generating your response.**
-				Identify the intent or subject of the users message, and use that to generate a chat name.
-				**IMPORTANT: You should only rename the chat once.**
+				description: `This tool renames the chat window. The chat name is currently "${chatInfo[0].name}"
+				If the name is currently "New Thread" you must rename the chat window **Immediately**
 				`,
 				parameters: z.object({
 					newName: z

@@ -45,7 +45,7 @@
 				></textarea>
 				<div class="bottomBar">
 					<div class="optionHolder">
-						<ModelPicker currentModel="gem2.5flash" />
+						<ModelPicker currentModel="gemini-2.0-flash" />
 					</div>
 					<div class="submit">
 						<button
@@ -127,27 +127,5 @@
 		border-radius: 0.25rem;
 		cursor: pointer;
 		font-size: 1rem;
-	}
-
-	.selectModel {
-		border: 1px solid var(--primary);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: row;
-		gap: 0.5rem;
-		background: var(--primary-10);
-		color: var(--text);
-		font-size: 0.8rem;
-		padding: 0.4rem;
-		border-radius: 0.25rem;
-		cursor: pointer;
-	}
-
-	.modelOptionWrap {
-		position: absolute;
-		left: 0px;
-		bottom: calc(100% + 0.25rem);
-		z-index: 100000;
 	}
 </style>

@@ -32,7 +32,10 @@ export const threadsTable = pgTable('threads', {
 		.primaryKey()
 		.$defaultFn(() => cuid()),
 	name: text().notNull(),
-	selectedModel: text(),
+	selectedModel: text().notNull().default('gemini-2.5-flash-preview-04-17'),
+	selectedProvider: text({ enum: ['google', 'openai'] })
+		.notNull()
+		.default('google'),
 	userId: text().references(() => usersTable.id),
 	createdAt: timestamp().notNull().defaultNow(),
 	messages: text().notNull().default('[]')

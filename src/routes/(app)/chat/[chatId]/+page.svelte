@@ -79,17 +79,6 @@
 		width: 100%;
 		max-width: 90ch;
 		padding: 5rem 5rem 0 5rem;
-
-		h2 {
-			margin: 0;
-		}
-	}
-
-	.chatForm {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 
 	.messageWrap {
@@ -103,10 +92,6 @@
 		.message {
 			background: var(--secondary);
 		}
-	}
-
-	.aiMessage {
-		justify-content: start;
 	}
 
 	.message {

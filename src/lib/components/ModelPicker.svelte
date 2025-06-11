@@ -6,8 +6,8 @@
 	import OpenAILogo from '~icons/streamline-logos/openai-logo';
 	import DropDownArrow from '~icons/ph/caret-down';
 
-	const {
-		currentModel = 'gem2.5flash'
+	let {
+		currentModel = $bindable('gem2.5flash')
 	}: {
 		currentModel: string;
 	} = $props();
@@ -25,19 +25,19 @@
 	};
 
 	const models: Record<string, ModelDetails> = {
-		'gem2.0flash': {
+		'gemini-2.0-flash': {
 			humanName: 'Gemini 2.0 Flash',
 			modelName: 'gemini-2.0-flash',
 			provider: 'google'
 		},
-		'gem2.5flash': {
+		'gemini-2.5-flash-preview-04-17': {
 			humanName: 'Gemini 2.5 Flash',
 			modelName: 'gemini-2.5-flash-preview-04-17',
 			provider: 'google'
 		},
 		'gem2.5pro': {
 			humanName: 'Gemini 2.5 Pro',
-			modelName: 'gemini-2.5-pro',
+			modelName: 'gemini-2.5-pro-exp-03-25',
 			provider: 'google'
 		},
 		gpt04Mini: {
@@ -55,6 +55,7 @@
 	<button
 		class="modelButton currentModelButton"
 		onclick={() => (showingDropDown = !showingDropDown)}
+		type="button"
 	>
 		<div class="icon">
 			<CurrentIcon />
@@ -65,7 +66,7 @@
 	{#if showingDropDown}
 		<div
 			class="floatingPicker"
-			in:fly={{
+			transition:fly={{
 				delay: 0,
 				duration: 100,
 				x: 0,
@@ -76,7 +77,14 @@
 				<div class="floatingPickerInner">
 					{#each Object.entries(models) as model, index (index)}
 						{@const Icon = iconMap[model[1].provider]}
-						<button type="button" class="modelButton modelDropDownButton">
+						<button
+							type="button"
+							class="modelButton modelDropDownButton"
+							onclick={() => {
+								currentModel = model[0];
+								showingDropDown = false;
+							}}
+						>
 							<div class="icon">
 								<Icon />
 							</div>
