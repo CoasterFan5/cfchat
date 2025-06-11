@@ -1,8 +1,69 @@
 <script>
-	import { goto } from '$app/navigation';
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import { scale } from 'svelte/transition';
-	import { z } from 'zod/v4';
+
+	import { Chat } from '@ai-sdk/svelte';
+	import { z } from 'zod/v4-mini';
+	import { goto } from '$app/navigation';
+
+	const chat = new Chat({
+		api: `/chat`,
+		fetch: async () => {
+			return new Response(undefined);
+		}
+	});
+
+	const systemPrompt = `
+      You are an AI assistant designed to fulfill user requests comprehensively and accurately.
+      Your primary goal is always to directly answer the user's question or complete their task.
+      You have access to various tools that can assist you in this endeavor.
+      **These tools are not the objective themselves, but rather a means to achieve the objective.**
+      Only use a tool if it is absolutely necessary to gather information, perform a calculation, or execute an action that directly contributes to fulfilling the user's request.
+      After using a tool, immediately process its output and use it to formulate your response to the user.
+      Do not simply return tool outputs without interpretation or context.
+    `;
+
+	const submitFirstChat = async () => {
+		chat.messages = [
+			{
+				id: '0',
+				role: 'system',
+				content: systemPrompt,
+				parts: [
+					{
+						type: 'text',
+						text: systemPrompt
+					}
+				]
+			},
+			{
+				id: '1',
+				role: 'user',
+				content: chat.input,
+				parts: [
+					{
+						type: 'text',
+						text: chat.input
+					}
+				]
+			}
+		];
+		const pr = await fetch('/chat', {
+			method: 'POST',
+			body: JSON.stringify(chat.messages)
+		});
+		const res = z.safeParse(
+			z.object({
+				newThreadId: z.string()
+			}),
+			await pr.json()
+		);
+
+		if (res.error) {
+			return;
+		}
+		goto(`/chat/${res.data.newThreadId}`);
+	};
 </script>
 
 <div class="newChat">
@@ -13,29 +74,10 @@
 			duration: 25
 		}}
 	>
-		<h2>Hello</h2>
-		<p>Let me know how I can help!</p>
+		<h2>Hello!</h2>
+		<p>How can I help?</p>
 	</div>
-	<ChatInput
-		onPrompt={async () => {
-			const newChatReq = await fetch('/chat', {
-				method: 'post'
-			});
-			const res = await newChatReq.json();
-			const parsed = z
-				.object({
-					threadId: z.string()
-				})
-				.safeParse(res);
-
-			if (parsed.error) {
-				return;
-			}
-
-			goto(`/chat/${parsed.data.threadId}`);
-		}}
-		createMode={false}
-	/>
+	<ChatInput bind:promptValue={chat.input} onPrompt={submitFirstChat} createMode={false} />
 </div>
 
 <style>

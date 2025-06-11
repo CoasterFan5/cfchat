@@ -10,8 +10,12 @@
 </script>
 
 <nav class="sidebar">
-	<h3 class="logo">CF Chat</h3>
-	<a href="/" class="createChat"> Create Chat </a>
+	<h3 class="logo">CF CHAT</h3>
+	<a href="/" class="createChat">
+		<div class="createChatInnerWrap">
+			<div class="createChatInner">Create Chat</div>
+		</div>
+	</a>
 	<div class="threads">
 		{#each threadList as thread (thread.id)}
 			<a href="/chat/{thread.id}" class="threadLink">{thread.name}</a>
@@ -36,18 +40,41 @@
 		font-size: 1.5rem;
 		margin: 0px;
 		margin-bottom: 0.5rem;
+		font-weight: 200;
 	}
 
 	.createChat {
-		background: var(--primary-10);
-		border: 1px solid var(--primary);
+		background: var(--background);
+		opacity: 0.95;
 		color: var(--text);
 		text-align: center;
 		width: 100%;
 		text-decoration: none;
-		padding: 0.5rem;
 		border-radius: 0.5rem;
 		font-size: 0.8rem;
+
+		&:hover {
+			opacity: 1;
+			color: var(--primary);
+
+			.createChatInnerWrap {
+				background-image: linear-gradient(75deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+			}
+		}
+
+		.createChatInnerWrap {
+			background-image: linear-gradient(75deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+			padding: 1px;
+			border-radius: 0.5rem;
+			cursor: pointer;
+			transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
+
+			.createChatInner {
+				padding: 0.5rem;
+				border-radius: calc(0.5rem - 1px);
+				background: var(--background);
+			}
+		}
 	}
 
 	.threadLink {

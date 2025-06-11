@@ -19,11 +19,8 @@
 
 	chat = new Chat({
 		api: `/chat/${data.thread.id}`,
-		maxSteps: 25
-	});
-
-	$effect(() => {
-		chat.messages = JSON.parse(data.thread.messages);
+		maxSteps: 25,
+		initialMessages: JSON.parse(data.thread.messages)
 	});
 
 	let reloaded = false;
