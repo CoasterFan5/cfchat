@@ -17,8 +17,6 @@
 			language: language || 'python'
 		}).value
 	);
-
-	$effect(() => console.log($state.snapshot(hl)));
 </script>
 
 <pre><code>{@html hl}</code></pre>

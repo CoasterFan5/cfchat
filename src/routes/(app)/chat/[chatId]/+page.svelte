@@ -3,6 +3,8 @@
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import AssistantMessage from './AssistantMessage.svelte';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
+	import type { Attachment } from 'svelte/attachments';
 
 	const {
 		data
@@ -10,17 +12,20 @@
 		data: PageData;
 	} = $props();
 
-	let chat = $state(
-		new Chat({
-			api: `/chat/${data.thread.id}`,
-			maxSteps: 25
-		})
-	);
-
-	chat = new Chat({
+	const chat = new Chat({
 		api: `/chat/${data.thread.id}`,
 		maxSteps: 25,
-		initialMessages: JSON.parse(data.thread.messages)
+		onResponse: () => {
+			console.log('res');
+		}
+	});
+
+	$effect(() => {
+		window.scrollTo(0, 1000000);
+	});
+
+	$effect(() => {
+		chat.messages = JSON.parse(data.thread.messages);
 	});
 
 	let reloaded = false;
@@ -34,35 +39,56 @@
 			}
 		}
 	});
+
+	onMount(() => {
+		console.log('scrolling');
+		bottomAnchor?.scrollIntoView();
+	});
+
+	const scrollToElement: Attachment = (node) => {
+		node.scrollIntoView();
+	};
+
+	let bottomAnchor: HTMLSpanElement | undefined = $state();
 </script>
 
-<div class="chatWrap">
-	<div class="chatLog">
-		{#each chat.messages as message, index (index)}
-			{#if message.role == 'user'}
-				<div class="messageWrap userMessage">
-					<div class="message">
-						{message.content}
+<div class="wrap">
+	<div class="chatWrap">
+		<div class="chatLog">
+			{#each chat.messages as message, index (index)}
+				{#if message.role == 'user'}
+					<div class="messageWrap userMessage">
+						<div class="message">
+							{message.content}
+						</div>
 					</div>
-				</div>
-			{:else if message.role == 'assistant'}
-				<AssistantMessage {message} />
-			{/if}
-			{JSON.stringify(message.annotations)}
-		{/each}
+				{:else if message.role == 'assistant'}
+					<AssistantMessage {message} />
+				{/if}
+				{JSON.stringify(message.annotations)}
+				<span class="b" {@attach scrollToElement}></span>
+			{/each}
+		</div>
 	</div>
-
 	<ChatInput bind:promptValue={chat.input} onsubmit={chat.handleSubmit} createMode={true} />
 </div>
 
 <style>
+	.wrap {
+		width: 100%;
+		height: 100vh;
+		position: relative;
+	}
 	.chatWrap {
+		position: absolute;
+		left: 0px;
+		bottom: 0px;
+		width: 100%;
+		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: start;
 		flex-direction: column;
-		width: 100%;
-		height: 100%;
 		overflow-y: auto;
 		overflow-x: hidden;
 	}
@@ -75,7 +101,9 @@
 		flex-grow: 1;
 		width: 100%;
 		max-width: 90ch;
-		padding: 5rem 5rem 0 5rem;
+		padding: 5rem 5rem 5rem 5rem;
+		line-height: 1.5rem;
+		gap: 0.5rem;
 	}
 
 	.messageWrap {

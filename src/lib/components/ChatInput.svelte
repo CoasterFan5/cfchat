@@ -1,6 +1,6 @@
 <script lang="ts">
 	import UpArrow from '~icons/ph/arrow-up';
-	import type { EventHandler } from 'svelte/elements';
+	import type { ChangeEventHandler, EventHandler } from 'svelte/elements';
 	import ModelPicker from './ModelPicker.svelte';
 
 	let {
@@ -25,10 +25,18 @@
 	};
 
 	let submitButton: HTMLButtonElement | undefined = $state();
+	let textAreaSize = $state(30);
 	const keyboardHelper = (e: KeyboardEvent) => {
 		if (e.key == 'Enter' && !e.shiftKey) {
 			submitButton?.click();
 		}
+	};
+
+	const resizeTextArea: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+		e.currentTarget.style.height = '0px';
+		textAreaSize = e.currentTarget.scrollHeight;
+		textAreaSize = Math.max(30, Math.min(textAreaSize, 250));
+		e.currentTarget.style.height = `${textAreaSize}px`;
 	};
 </script>
 
@@ -42,6 +50,9 @@
 					bind:value={promptValue}
 					placeholder="Ask Anything..."
 					onkeypress={keyboardHelper}
+					oninput={resizeTextArea}
+					rows="1"
+					style="height: {textAreaSize}px"
 				></textarea>
 				<div class="bottomBar">
 					<div class="optionHolder">
@@ -69,7 +80,10 @@
 		border-radius: 0.5rem 0.5rem 0 0;
 		width: 100%;
 		max-width: 90ch;
-		height: 8rem;
+		position: absolute;
+		left: 50%;
+		bottom: 0px;
+		transform: translate(-50%);
 	}
 
 	.innerWrap {
@@ -87,7 +101,6 @@
 
 	.inner {
 		padding: 0.75rem;
-		height: 6.75rem;
 		border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
 		height: 100%;
 		display: flex;
@@ -97,8 +110,11 @@
 
 	.textInput {
 		all: unset;
+		height: 100%;
+		line-height: 1.25rem;
 		width: 100%;
 		flex-grow: 1;
+		overflow-y: auto;
 		box-sizing: border-box;
 	}
 

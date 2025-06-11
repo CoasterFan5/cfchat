@@ -90,7 +90,8 @@ export const POST = async ({ request, params }) => {
 			}),
 			nameChat: tool({
 				description: `This tool renames the chat window. The chat name is currently "${chatInfo[0].name}"
-				If the name is currently "New Thread" you must rename the chat window **Immediately**
+				If the name is currently New Thread you must rename the chat window **Immediately** to reflect the message of the user.
+				Before you respond for the first time, its essential you rename the chat. Do not rename the chat a second time.
 				`,
 				parameters: z.object({
 					newName: z

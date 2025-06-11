@@ -21,6 +21,16 @@
 			<a href="/chat/{thread.id}" class="threadLink">{thread.name}</a>
 		{/each}
 	</div>
+	<div class="accountInfoWrap">
+		<div class="accountInfoInnerBorderBackground">
+			<div class="accountInfoInnerBorder">
+				<div class="accountInfoInner">
+					<span>Username</span>
+					<span class="usage">0/100 Synapse</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </nav>
 
 <style lang="scss">
@@ -31,6 +41,7 @@
 		padding: 1rem;
 		display: flex;
 		flex-direction: column;
+		position: relative;
 	}
 
 	.logo {
@@ -106,5 +117,45 @@
 		gap: 0.25rem;
 		margin-top: 1rem;
 		overflow-y: auto;
+	}
+
+	.accountInfoWrap {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		width: 100%;
+		padding: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.accountInfoInnerBorderBackground {
+			width: 100%;
+			height: 100%;
+			background: var(--background);
+			display: flex;
+			border-radius: 0.25rem;
+		}
+
+		.accountInfoInnerBorder {
+			background-image: linear-gradient(75deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+			border-radius: 0.25rem;
+			width: 100%;
+			height: 100%;
+			padding: 1px;
+		}
+
+		.accountInfoInner {
+			background: var(--background);
+			border-radius: calc(0.25rem - 1px);
+			padding: 0.5rem;
+			display: flex;
+			flex-direction: column;
+
+			.usage {
+				opacity: 0.8;
+				font-size: 0.8rem;
+			}
+		}
 	}
 </style>
