@@ -6,4 +6,4 @@ I want something that stays out of the way. In an era of evolving AI tech, putti
 
 # Billing Methodology
 
-For billing, I will be using a fake unit called a "Synapse" these units are calculated as (tokens used * price per token * 200)
+For billing, I will be using a fake unit called a "Synapse" these units are calculated as (tokens used _ price per token _ 200)
