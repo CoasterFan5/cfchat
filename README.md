@@ -1,9 +1,14 @@
 I am using this as a place to keep my ideas straight
 
-## Philosophy
-
-I want something that stays out of the way. In an era of evolving AI tech, putting the human in control and letting the AI assist but only when its wanted.
-
-# Billing Methodology
-
-For billing, I will be using a fake unit called a "Synapse" these units are calculated as (tokens used _ price per token _ 200)
+# Feature List
+- [x] Basic Chatting
+- [x] Switching Models
+- [ ] Non Auth Trial
+- [ ] Sharing Chats
+  - Messages should be shared
+  - Ability to chat in the shared chat?
+- [ ] Message Limits
+- [ ] Usage
+- [ ] Logging Out
+- [ ] Bring your own key
+- [ ] Github Auth
