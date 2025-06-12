@@ -5,6 +5,8 @@
 	import GoogleLogo from '~icons/logos/google-icon';
 	import OpenAILogo from '~icons/streamline-logos/openai-logo';
 	import DropDownArrow from '~icons/ph/caret-down';
+	import LoadingSpinner from '~icons/svg-spinners/ring-resize';
+	import { enhance } from '$app/forms';
 
 	let {
 		currentModel = $bindable('gem2.5flash')
@@ -31,7 +33,7 @@
 			provider: 'google'
 		},
 		'gemini-2.5-flash-preview-04-17': {
-			humanName: 'Gemini 2.5 Flash',
+			humanName: 'Gemini 2.5 Flash 04-17',
 			modelName: 'gemini-2.5-flash-preview-04-17',
 			provider: 'google'
 		},
@@ -47,9 +49,17 @@
 		}
 	};
 
-	let CurrentIcon = $derived(iconMap[models[currentModel].provider]);
 	let showingDropDown = $state(false);
+	let loadingModel = $state(false);
+	let CurrentIcon = $derived(iconMap[models[currentModel].provider]);
+
+	const setModel = () => {};
 </script>
+
+<form hidden method="post" action="?/changeModel" use:enhance>
+	<input name="model" />
+	<button>Change Model</button>
+</form>
 
 <div class="wrap">
 	<button
@@ -57,9 +67,11 @@
 		onclick={() => (showingDropDown = !showingDropDown)}
 		type="button"
 	>
-		<div class="icon">
+		{#if loadingModel}
+			<LoadingSpinner />
+		{:else}
 			<CurrentIcon />
-		</div>
+		{/if}
 		{models[currentModel].humanName}
 		<DropDownArrow />
 	</button>
@@ -131,7 +143,7 @@
 		gap: 0.5rem;
 		background: transparent;
 		color: var(--text);
-		padding: 0 0.5rem;
+		padding: 0 0.25rem;
 		border-radius: 0.25rem;
 		outline: 0px;
 		border: 0px;

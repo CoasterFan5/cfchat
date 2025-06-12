@@ -49,6 +49,7 @@
 				]
 			}
 		];
+
 		const pr = await fetch('/chat', {
 			method: 'POST',
 			body: JSON.stringify(chat.messages)

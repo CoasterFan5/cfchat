@@ -6,7 +6,8 @@ export const usersTable = pgTable('user', {
 		.primaryKey()
 		.$defaultFn(() => cuid()),
 	email: text(),
-	name: text()
+	name: text(),
+	selectedModel: text()
 });
 
 export const sessionsTable = pgTable('sessions', {
@@ -33,9 +34,6 @@ export const threadsTable = pgTable('threads', {
 		.$defaultFn(() => cuid()),
 	name: text().notNull(),
 	selectedModel: text().notNull().default('gemini-2.5-flash-preview-04-17'),
-	selectedProvider: text({ enum: ['google', 'openai'] })
-		.notNull()
-		.default('google'),
 	userId: text().references(() => usersTable.id),
 	createdAt: timestamp().notNull().defaultNow(),
 	messages: text().notNull().default('[]')

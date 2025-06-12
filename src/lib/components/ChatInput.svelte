@@ -116,6 +116,7 @@
 		flex-grow: 1;
 		overflow-y: auto;
 		box-sizing: border-box;
+		padding: 0 0.25rem;
 	}
 
 	.optionHolder {
