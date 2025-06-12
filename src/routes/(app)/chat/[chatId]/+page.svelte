@@ -70,7 +70,13 @@
 			{/each}
 		</div>
 	</div>
-	<ChatInput bind:promptValue={chat.input} onsubmit={chat.handleSubmit} createMode={true} />
+	<ChatInput
+		bind:promptValue={chat.input}
+		onsubmit={chat.handleSubmit}
+		createMode={true}
+		currentModel={data.thread.selectedModel}
+		threadId={data.thread.id}
+	/>
 </div>
 
 <style>

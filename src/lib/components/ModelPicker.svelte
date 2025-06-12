@@ -6,12 +6,13 @@
 	import OpenAILogo from '~icons/streamline-logos/openai-logo';
 	import DropDownArrow from '~icons/ph/caret-down';
 	import LoadingSpinner from '~icons/svg-spinners/ring-resize';
-	import { enhance } from '$app/forms';
 
 	let {
-		currentModel = $bindable('gem2.5flash')
+		currentModel = $bindable('gemini-2.5-flash'),
+		threadId
 	}: {
 		currentModel: string;
+		threadId?: string;
 	} = $props();
 
 	type providerType = 'google' | 'openai';
@@ -32,34 +33,53 @@
 			modelName: 'gemini-2.0-flash',
 			provider: 'google'
 		},
-		'gemini-2.5-flash-preview-04-17': {
-			humanName: 'Gemini 2.5 Flash 04-17',
-			modelName: 'gemini-2.5-flash-preview-04-17',
+		'gemini-2.5-flash': {
+			humanName: 'Gemini 2.5 Flash',
+			modelName: 'gemini-2.5-flash',
 			provider: 'google'
 		},
-		'gem2.5pro': {
+		'gemini-2.5-pro': {
 			humanName: 'Gemini 2.5 Pro',
 			modelName: 'gemini-2.5-pro-exp-03-25',
 			provider: 'google'
 		},
-		gpt04Mini: {
+		'gpt-4.1-nano': {
 			humanName: 'o4 Mini',
-			modelName: 'gemini-2.5-flash-preview-04-17',
+			modelName: 'gemini-2.5-flash',
 			provider: 'openai'
 		}
 	};
 
+	let currentSelectionObject = $derived(models[currentModel] || models['gemini-2.5-flash']);
+
 	let showingDropDown = $state(false);
 	let loadingModel = $state(false);
-	let CurrentIcon = $derived(iconMap[models[currentModel].provider]);
+	let CurrentIcon = $derived(iconMap[currentSelectionObject.provider]);
 
-	const setModel = () => {};
+	const changeModel = async (name: string) => {
+		const restorable = currentModel;
+		currentModel = name;
+		loadingModel = true;
+		showingDropDown = false;
+
+		const fr = await fetch('/api/setModel', {
+			method: 'POST',
+			body: JSON.stringify({
+				modelName: name,
+				threadId: threadId
+			})
+		});
+
+		if (fr.status == 200) {
+			loadingModel = false;
+			console.info('Model Switched');
+		} else {
+			console.error(fr);
+			loadingModel = false;
+			currentModel = restorable;
+		}
+	};
 </script>
-
-<form hidden method="post" action="?/changeModel" use:enhance>
-	<input name="model" />
-	<button>Change Model</button>
-</form>
 
 <div class="wrap">
 	<button
@@ -67,13 +87,15 @@
 		onclick={() => (showingDropDown = !showingDropDown)}
 		type="button"
 	>
-		{#if loadingModel}
-			<LoadingSpinner />
-		{:else}
-			<CurrentIcon />
-		{/if}
-		{models[currentModel].humanName}
-		<DropDownArrow />
+		<div class="icon">
+			{#if loadingModel}
+				<LoadingSpinner />
+			{:else}
+				<CurrentIcon />
+			{/if}
+		</div>
+		<span>{currentSelectionObject.humanName}</span>
+		<div class="icon"><DropDownArrow /></div>
 	</button>
 	{#if showingDropDown}
 		<div
@@ -93,8 +115,7 @@
 							type="button"
 							class="modelButton modelDropDownButton"
 							onclick={() => {
-								currentModel = model[0];
-								showingDropDown = false;
+								changeModel(model[0]);
 							}}
 						>
 							<div class="icon">

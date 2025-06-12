@@ -26,12 +26,11 @@ export const load = async ({ cookies, params }) => {
 };
 
 export const actions = {
-	changeProvider: actionHelper(
+	changeModel: actionHelper(
 		z.object({
-			provider: z.enum(['google', 'openai']),
 			model: z.string()
 		}),
-		async ({ provider, model }, { cookies, params }) => {
+		async ({ model }, { cookies, params }) => {
 			const user = await validateSession(cookies);
 			if (!user || !params.chatId) {
 				throw redirect(303, '/');
@@ -48,7 +47,6 @@ export const actions = {
 			}
 
 			await db.update(threadsTable).set({
-				selectedProvider: provider,
 				selectedModel: model
 			});
 		}

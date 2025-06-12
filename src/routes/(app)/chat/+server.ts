@@ -21,7 +21,8 @@ export const POST: RequestHandler = async ({ cookies, request }) => {
 		.values({
 			name: 'New Thread',
 			userId: user.id,
-			messages: JSON.stringify(messages)
+			messages: JSON.stringify(messages),
+			selectedModel: user.selectedModel || undefined
 		})
 		.returning();
 

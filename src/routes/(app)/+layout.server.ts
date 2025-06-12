@@ -21,6 +21,7 @@ export const load = async ({ cookies }) => {
 		.where(eq(threadsTable.userId, user.id));
 
 	return {
-		threadList: threads
+		threadList: threads,
+		user: user
 	};
 };

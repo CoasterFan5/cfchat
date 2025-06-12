@@ -6,6 +6,8 @@
 	import { z } from 'zod/v4-mini';
 	import { goto } from '$app/navigation';
 
+	let { data } = $props();
+
 	const chat = new Chat({
 		api: `/chat`,
 		fetch: async () => {
@@ -79,7 +81,12 @@
 		<h2>Hello!</h2>
 		<p>How can I help?</p>
 	</div>
-	<ChatInput bind:promptValue={chat.input} onPrompt={submitFirstChat} createMode={false} />
+	<ChatInput
+		bind:promptValue={chat.input}
+		onPrompt={submitFirstChat}
+		createMode={false}
+		currentModel={data.user?.selectedModel || undefined}
+	/>
 </div>
 
 <style>

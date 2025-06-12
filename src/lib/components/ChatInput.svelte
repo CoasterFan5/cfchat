@@ -7,11 +7,15 @@
 		onPrompt,
 		createMode = false,
 		onsubmit,
+		threadId,
+		currentModel = 'gemini-2.5-flash',
 		promptValue = $bindable('')
 	}: {
 		onPrompt?: (args: { prompt: string; model: string }) => void;
 		createMode?: boolean;
 		onsubmit?: EventHandler<SubmitEvent, HTMLFormElement>;
+		threadId?: string;
+		currentModel?: string;
 		promptValue?: string;
 	} = $props();
 
@@ -56,7 +60,7 @@
 				></textarea>
 				<div class="bottomBar">
 					<div class="optionHolder">
-						<ModelPicker currentModel="gemini-2.0-flash" />
+						<ModelPicker {currentModel} {threadId} />
 					</div>
 					<div class="submit">
 						<button

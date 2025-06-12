@@ -1,24 +1,26 @@
-import { GOOGLE_TOKEN } from '$env/static/private';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { appendResponseMessages, streamText, tool } from 'ai';
 import { z } from 'zod';
 import * as mj from 'mathjs';
-import * as cheerio from 'cheerio';
 import { db } from '$lib/server/db/index.js';
 import { threadsTable } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
+import { validateSession } from '$lib/server/validateSession.js';
+import { getModel } from '$lib/server/getModel';
 
-const goog = createGoogleGenerativeAI({
-	apiKey: GOOGLE_TOKEN
-});
-
-export const POST = async ({ request, params }) => {
+export const POST = async ({ request, params, cookies }) => {
 	console.log(`Gateway Request`);
 
+	const userPromise = validateSession(cookies);
 	const chatInfoPromise = db.select().from(threadsTable).where(eq(threadsTable.id, params.chatId));
 	const requestJsonPromise = request.json();
 
+	const user = await userPromise;
+	if (!user) {
+		return error(400, {
+			message: 'Invalid Session'
+		});
+	}
 	const chatInfo = await chatInfoPromise;
 	if (!chatInfo[0]) {
 		return error(404, {
@@ -30,7 +32,7 @@ export const POST = async ({ request, params }) => {
 
 	const res = streamText({
 		maxSteps: 25,
-		model: goog('gemini-2.0-flash'),
+		model: getModel(chatInfo[0].selectedModel),
 		messages,
 		tools: {
 			time: tool({
@@ -41,33 +43,6 @@ export const POST = async ({ request, params }) => {
 					return {
 						time: Date.now().toString()
 					};
-				}
-			}),
-			openLink: tool({
-				description:
-					'Opens a webpage and returns the content. Use this tool to retrieve the text content of a url.',
-				parameters: z.object({
-					link: z
-						.string()
-						.describe(
-							'This is the url of the webpage to open, for example: https://example.com. **IMPORTANT** Only provide a valid URL, anything else will result in an error.'
-						)
-				}),
-				execute: async ({ link }) => {
-					console.info(`Attempting to open ${link}`);
-
-					try {
-						const r = await fetch(link);
-						const b = await r.text();
-
-						const $ = cheerio.load(b);
-						const rawText = $.root().text().trim();
-
-						return rawText;
-					} catch (e) {
-						console.error(e);
-						return `The link could not be open and failed with the following error. Do not attempt to open this link again. ${e}`;
-					}
 				}
 			}),
 			math: tool({
