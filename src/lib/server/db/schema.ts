@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { cuid } from '../cuid';
 
 export const usersTable = pgTable('user', {
@@ -7,7 +7,9 @@ export const usersTable = pgTable('user', {
 		.$defaultFn(() => cuid()),
 	email: text(),
 	name: text(),
-	selectedModel: text()
+	selectedModel: text(),
+	messageLimit: integer().notNull().default(10),
+	messagesSent: integer().notNull().default(0)
 });
 
 export const sessionsTable = pgTable('sessions', {

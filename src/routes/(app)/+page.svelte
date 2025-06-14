@@ -23,7 +23,7 @@
       Only use a tool if it is absolutely necessary to gather information, perform a calculation, or execute an action that directly contributes to fulfilling the user's request.
       After using a tool, immediately process its output and use it to formulate your response to the user.
       Do not simply return tool outputs without interpretation or context.
-      When writting code, keep the line width to 80 characters and use formatting that makes sense for the language.
+      When writing code, keep the line width to 80 characters and use formatting that makes sense for the language.
     `;
 
 	const submitFirstChat = async () => {

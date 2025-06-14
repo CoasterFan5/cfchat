@@ -1,11 +1,19 @@
 <script lang="ts">
+	import Noise from './Noise.svelte';
+
 	const {
-		threadList
+		threadList,
+		messageLimit,
+		sentMessages,
+		username = 'Anonymous'
 	}: {
 		threadList: {
 			id: string;
 			name: string;
 		}[];
+		messageLimit: number;
+		sentMessages: number;
+		username?: string | null;
 	} = $props();
 </script>
 
@@ -25,8 +33,9 @@
 		<div class="accountInfoInnerBorderBackground">
 			<div class="accountInfoInnerBorder">
 				<div class="accountInfoInner">
-					<span>Username</span>
-					<span class="usage">0/100 Synapse</span>
+					<Noise color="var(--secondary)" />
+					<span class="username">{username}</span>
+					<span class="usage">{messageLimit - sentMessages} Messages Remain</span>
 				</div>
 			</div>
 		</div>
@@ -151,10 +160,16 @@
 			padding: 0.5rem;
 			display: flex;
 			flex-direction: column;
+			gap: 0.25rem;
+			position: relative;
 
+			.username {
+				z-index: 1;
+			}
 			.usage {
-				opacity: 0.8;
-				font-size: 0.8rem;
+				opacity: 0.7;
+				z-index: 1;
+				font-size: 0.75rem;
 			}
 		}
 	}

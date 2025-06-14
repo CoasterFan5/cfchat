@@ -1,15 +1,15 @@
+import { createSession } from '$lib/server/createSession.js';
 import { db } from '$lib/server/db/index.js';
-import { threadsTable } from '$lib/server/db/schema.js';
+import { threadsTable, usersTable } from '$lib/server/db/schema.js';
 import { validateSession } from '$lib/server/validateSession.js';
 import { eq } from 'drizzle-orm';
 
 export const load = async ({ cookies }) => {
-	const user = await validateSession(cookies);
+	let user = await validateSession(cookies);
 
 	if (!user) {
-		return {
-			threadList: []
-		};
+		user = (await db.insert(usersTable).values({}).returning())[0];
+		await createSession(user.id, cookies);
 	}
 
 	const threads = await db

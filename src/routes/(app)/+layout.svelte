@@ -5,7 +5,12 @@
 </script>
 
 <div class="wrap">
-	<Sidebar threadList={data.threadList} />
+	<Sidebar
+		threadList={data.threadList}
+		sentMessages={data.user.messagesSent}
+		messageLimit={data.user.messageLimit}
+		username={data.user?.name}
+	/>
 	<div class="content">
 		{@render children?.()}
 	</div>

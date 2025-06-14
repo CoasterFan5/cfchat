@@ -2,8 +2,8 @@ import { appendResponseMessages, streamText, tool } from 'ai';
 import { z } from 'zod';
 import * as mj from 'mathjs';
 import { db } from '$lib/server/db/index.js';
-import { threadsTable } from '$lib/server/db/schema.js';
-import { eq } from 'drizzle-orm';
+import { threadsTable, usersTable } from '$lib/server/db/schema.js';
+import { eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 import { validateSession } from '$lib/server/validateSession.js';
 import { getModel } from '$lib/server/getModel';
@@ -21,6 +21,13 @@ export const POST = async ({ request, params, cookies }) => {
 			message: 'Invalid Session'
 		});
 	}
+
+	if (user.messagesSent >= user.messageLimit) {
+		return error(400, {
+			message: 'Message Limit Reached'
+		});
+	}
+
 	const chatInfo = await chatInfoPromise;
 	if (!chatInfo[0]) {
 		return error(404, {
@@ -103,6 +110,13 @@ export const POST = async ({ request, params, cookies }) => {
 					messages: JSON.stringify(newMessagesField)
 				})
 				.where(eq(threadsTable.id, params.chatId));
+
+			await db
+				.update(usersTable)
+				.set({
+					messagesSent: sql`${usersTable.messagesSent} + 1`
+				})
+				.where(eq(usersTable.id, user.id));
 		}
 	});
 
