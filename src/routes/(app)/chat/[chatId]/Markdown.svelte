@@ -15,6 +15,7 @@
 		Blockquote
 	} from 'mdast';
 	import Codeblock from './Codeblock.svelte';
+	import { fade } from 'svelte/transition';
 	const {
 		markdown
 	}: {
@@ -179,7 +180,14 @@
 	{/if}
 {/snippet}
 
-{@render tokensRender(root.children)}
+<span
+	in:fade|global={{
+		delay: 0,
+		duration: 100
+	}}
+>
+	{@render tokensRender(root.children)}
+</span>
 
 <style lang="scss">
 	code {
