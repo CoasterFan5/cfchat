@@ -1,6 +1,7 @@
 I am using this as a place to keep my ideas straight
 
 # Feature List
+
 - [x] Basic Chatting
 - [x] Switching Models
 - [ ] Non Auth Trial
