@@ -2,7 +2,7 @@ import { createSession } from '$lib/server/createSession.js';
 import { db } from '$lib/server/db/index.js';
 import { threadsTable, usersTable } from '$lib/server/db/schema.js';
 import { validateSession } from '$lib/server/validateSession.js';
-import { eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 
 export const load = async ({ cookies }) => {
 	let user = await validateSession(cookies);
@@ -18,7 +18,8 @@ export const load = async ({ cookies }) => {
 			id: threadsTable.id
 		})
 		.from(threadsTable)
-		.where(eq(threadsTable.userId, user.id));
+		.where(eq(threadsTable.userId, user.id))
+		.orderBy(asc(threadsTable.createdAt));
 
 	return {
 		threadList: threads,

@@ -80,7 +80,6 @@
 				{:else if message.role == 'assistant'}
 					<AssistantMessage {message} />
 				{/if}
-				{JSON.stringify(message.annotations)}
 				<span class="b" {@attach scrollToElement}></span>
 			{/each}
 		</div>
