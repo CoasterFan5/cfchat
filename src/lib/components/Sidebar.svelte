@@ -1,20 +1,14 @@
 <script lang="ts">
 	import Noise from './Noise.svelte';
+	import { getUserContext } from '$lib/contex.svelte';
 
 	const {
-		threadList,
-		messageLimit,
-		sentMessages,
 		username = 'Anonymous'
 	}: {
-		threadList: {
-			id: string;
-			name: string;
-		}[];
-		messageLimit: number;
-		sentMessages: number;
 		username?: string | null;
 	} = $props();
+
+	const ctx = getUserContext();
 </script>
 
 <nav class="sidebar">
@@ -25,8 +19,15 @@
 		</div>
 	</a>
 	<div class="threads">
-		{#each threadList as thread (thread.id)}
-			<a href="/chat/{thread.id}" class="threadLink">{thread.name}</a>
+		{#each ctx.threadList as thread (thread.id)}
+			{@const active = ctx.currentThreadId == thread.id}
+			<a class:active href="/chat/{thread.id}" class="threadLink">
+				{#if active}
+					{ctx.currentThreadName}
+				{:else}
+					{thread.name}
+				{/if}
+			</a>
 		{/each}
 	</div>
 	<div class="accountInfoWrap">
@@ -35,7 +36,7 @@
 				<div class="accountInfoInner">
 					<Noise color="var(--secondary)" />
 					<span class="username">{username}</span>
-					<span class="usage">{messageLimit - sentMessages} Messages Remain</span>
+					<span class="usage">{ctx.messageLimit - ctx.messagesSent} Messages Remain</span>
 				</div>
 			</div>
 		</div>
@@ -112,6 +113,10 @@
 
 		&:hover {
 			opacity: 1;
+			background: var(--primary-10);
+		}
+
+		&.active {
 			background: var(--primary-10);
 		}
 	}

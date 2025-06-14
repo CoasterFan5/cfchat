@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import type { Attachment } from 'svelte/attachments';
+	import { getUserContext } from '$lib/contex.svelte';
 
 	const {
 		data
@@ -12,11 +13,23 @@
 		data: PageData;
 	} = $props();
 
+	const ctx = getUserContext();
+
 	const chat = new Chat({
 		api: `/chat/${data.thread.id}`,
 		maxSteps: 25,
 		onResponse: () => {
-			console.log('res');
+			ctx.messagesSent += 1;
+		},
+		onFinish: (f) => {
+			const toolParts = f.parts?.filter(
+				(t) => t.type == 'tool-invocation' && t.toolInvocation.toolName == 'nameChat'
+			);
+			if (toolParts && toolParts[0]) {
+				if (toolParts[0].type == 'tool-invocation') {
+					ctx.currentThreadName = toolParts[0].toolInvocation.args.newName || 'New Thread';
+				}
+			}
 		}
 	});
 
@@ -26,6 +39,8 @@
 
 	$effect(() => {
 		chat.messages = JSON.parse(data.thread.messages);
+		ctx.currentThreadId = data.thread.id;
+		ctx.currentThreadName = data.thread.name;
 	});
 
 	let reloaded = false;

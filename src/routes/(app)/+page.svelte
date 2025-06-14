@@ -5,8 +5,10 @@
 	import { Chat } from '@ai-sdk/svelte';
 	import { z } from 'zod/v4-mini';
 	import { goto } from '$app/navigation';
+	import { getUserContext } from '$lib/contex.svelte.js';
 
 	let { data } = $props();
+	const ctx = getUserContext();
 
 	const chat = new Chat({
 		api: `/chat`,
@@ -66,6 +68,10 @@
 		if (res.error) {
 			return;
 		}
+		ctx.threadList.push({
+			id: res.data.newThreadId,
+			name: 'New Thread'
+		});
 		goto(`/chat/${res.data.newThreadId}`);
 	};
 </script>
