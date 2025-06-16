@@ -26,6 +26,7 @@
       After using a tool, immediately process its output and use it to formulate your response to the user.
       Do not simply return tool outputs without interpretation or context.
       When writing code, keep the line width to 80 characters and use formatting that makes sense for the language.
+      **CRITICAL INSTRUCTION**: Before responding to the users first request, make sure you rename the chat. Do not hesistate.
     `;
 
 	const submitFirstChat = async () => {
