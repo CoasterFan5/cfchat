@@ -1,4 +1,4 @@
-import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { cuid } from '../cuid';
 
 export const usersTable = pgTable('user', {
@@ -9,7 +9,8 @@ export const usersTable = pgTable('user', {
 	name: text(),
 	selectedModel: text(),
 	messageLimit: integer().notNull().default(10),
-	messagesSent: integer().notNull().default(0)
+	messagesSent: integer().notNull().default(0),
+	shadowUser: boolean().notNull().default(true)
 });
 
 export const sessionsTable = pgTable('sessions', {

@@ -102,7 +102,7 @@
 		text-decoration: none;
 		color: var(--text);
 		width: 100%;
-		padding: 0.25rem;
+		padding: 0.25rem 0.5rem;
 		border-radius: 0.25rem;
 		opacity: 0.8;
 		transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
@@ -110,14 +110,17 @@
 		text-overflow: ellipsis;
 		text-wrap-mode: nowrap;
 		min-height: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: start;
 
 		&:hover {
 			opacity: 1;
-			background: var(--primary-10);
+			background: var(--background);
 		}
 
 		&.active {
-			background: var(--primary-10);
+			background: var(--background);
 		}
 	}
 

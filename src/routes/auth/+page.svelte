@@ -6,7 +6,7 @@
 	<div class="loginForm">
 		<h2>Log In</h2>
 		<p>Continue With:</p>
-		<a class="loginLink" href="">
+		<a class="loginLink" href="/auth/github">
 			<div class="loginLinkInner">
 				<div class="icon">
 					<GithubIcon />
@@ -14,12 +14,14 @@
 				GitHub
 			</div>
 		</a>
+		<!-- If I fix zero before this goes out.
 		<a class="loginLink" href="/auth/zero">
 			<div class="loginLinkInner">
 				<div class="icon">0</div>
 				CF Zero
 			</div>
 		</a>
+		-->
 	</div>
 </div>
 
