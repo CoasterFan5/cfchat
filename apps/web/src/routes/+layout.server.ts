@@ -1,6 +1,6 @@
 import { createSession } from '$lib/server/createSession.js';
 import { db } from '$lib/server/db/index.js';
-import { threadsTable, usersTable } from '$lib/server/db/schema.js';
+import { threadsTable, usersTable } from 'database/schema';
 import { validateSession } from '$lib/server/validateSession.js';
 import { asc, eq } from 'drizzle-orm';
 

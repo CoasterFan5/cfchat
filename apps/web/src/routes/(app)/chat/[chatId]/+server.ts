@@ -2,7 +2,7 @@ import { appendResponseMessages, streamText, tool } from 'ai';
 import { z } from 'zod';
 import * as mj from 'mathjs';
 import { db } from '$lib/server/db/index.js';
-import { threadsTable, usersTable } from '$lib/server/db/schema.js';
+import { threadsTable, usersTable } from 'database/schema';
 import { eq, sql } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 import { validateSession } from '$lib/server/validateSession.js';

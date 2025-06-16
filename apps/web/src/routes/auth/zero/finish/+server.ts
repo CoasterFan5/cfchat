@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { ZERO_TOKEN } from '$env/static/private';
 import { z } from 'zod/v4';
 import { db } from '$lib/server/db';
-import { userIndetitiesTable, usersTable } from '$lib/server/db/schema';
+import { userIndetitiesTable, usersTable } from 'database/schema';
 import { and, eq } from 'drizzle-orm/gel-core/expressions';
 import { createSession } from '$lib/server/createSession';
 

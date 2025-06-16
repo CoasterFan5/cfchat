@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { validateSession } from '$lib/server/validateSession';
 import { db } from '$lib/server/db';
-import { threadsTable } from '$lib/server/db/schema';
+import { threadsTable } from 'database/schema';
 
 export const POST: RequestHandler = async ({ cookies, request }) => {
 	const user = await validateSession(cookies);

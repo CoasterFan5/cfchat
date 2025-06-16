@@ -1,1 +1,0 @@
-ALTER TABLE "user" ADD COLUMN "shadowUser" boolean DEFAULT true NOT NULL;

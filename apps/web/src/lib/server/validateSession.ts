@@ -1,6 +1,6 @@
 import type { Cookies } from '@sveltejs/kit';
 import { db } from './db';
-import { sessionsTable, usersTable } from './db/schema';
+import { sessionsTable, usersTable } from 'database/schema';
 import { eq } from 'drizzle-orm';
 
 export const validateSession = async (cookies: Cookies) => {

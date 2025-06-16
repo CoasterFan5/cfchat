@@ -1,6 +1,6 @@
 import { actionHelper } from '$lib/server/actionHelper.js';
 import { db } from '$lib/server/db/index.js';
-import { threadsTable } from '$lib/server/db/schema.js';
+import { threadsTable } from 'database/schema';
 import { validateSession } from '$lib/server/validateSession';
 import { redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';

@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
 import { validateSession } from '$lib/server/validateSession';
 import { db } from '$lib/server/db';
-import { threadsTable, usersTable } from '$lib/server/db/schema';
+import { threadsTable, usersTable } from 'database/schema';
 import { eq, and } from 'drizzle-orm';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {

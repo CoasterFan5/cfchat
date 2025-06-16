@@ -1,7 +1,7 @@
 import type { Cookies } from '@sveltejs/kit';
 import { cuid } from './cuid';
 import { db } from './db';
-import { sessionsTable } from './db/schema';
+import { sessionsTable } from 'database/schema';
 import { dev } from '$app/environment';
 
 const NINETY_DAYS = 90 * 24 * 60 * 60 * 1000;

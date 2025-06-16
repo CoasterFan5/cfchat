@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 import { z } from 'zod/v4';
 import { validateSession } from '$lib/server/validateSession';
 import { db } from '$lib/server/db';
-import { userIndetitiesTable, usersTable } from '$lib/server/db/schema';
+import { userIndetitiesTable, usersTable } from 'database/schema';
 import { and, eq } from 'drizzle-orm';
 import { createSession } from '$lib/server/createSession';
 
