@@ -111,6 +111,7 @@
 		padding: 0.25rem 1rem;
 		margin: 0;
 		padding-bottom: 1rem;
+		overflow-x: auto;
 	}
 
 	.language {
