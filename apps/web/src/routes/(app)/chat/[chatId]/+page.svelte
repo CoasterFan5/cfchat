@@ -113,7 +113,7 @@
 		flex-grow: 1;
 		width: 100%;
 		max-width: 90ch;
-		padding: 5rem 5rem 5rem 5rem;
+		padding: 5rem 5rem 6rem 5rem;
 		line-height: 1.5rem;
 		gap: 0.5rem;
 	}
