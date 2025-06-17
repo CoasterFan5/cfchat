@@ -32,11 +32,6 @@
 			}
 		}
 	});
-
-	$effect(() => {
-		window.scrollTo(0, 1000000);
-	});
-
 	$effect(() => {
 		chat.messages = JSON.parse(data.thread.messages);
 		ctx.currentThreadId = data.thread.id;

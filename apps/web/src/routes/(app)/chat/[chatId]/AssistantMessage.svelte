@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { UIMessage } from 'ai';
 	import Markdown from './Markdown.svelte';
-	import ToolInfo from './ToolInfo.svelte';
 
 	const {
 		message
@@ -15,8 +14,6 @@
 		{#each message.parts as part, partIndex (partIndex)}
 			{#if part.type == 'text'}
 				<Markdown markdown={part.text} />
-			{:else if part.type == 'tool-invocation'}
-				<ToolInfo toolName={part.toolInvocation.toolName} />
 			{/if}
 		{/each}
 	</div>

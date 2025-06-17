@@ -40,7 +40,8 @@
 		link: linkRenderer,
 		image: imageRenderer,
 		blockquote: blockQuoteRenderer,
-		thematicBreak: thematicBreakRenderer
+		thematicBreak: thematicBreakRenderer,
+		break: breakRenderer
 	};
 </script>
 
@@ -164,6 +165,10 @@
 
 {#snippet thematicBreakRenderer()}
 	<hr />
+{/snippet}
+
+{#snippet breakRenderer()}
+	<br />
 {/snippet}
 
 {#snippet tokensRender(nodes: Node[])}
