@@ -32,6 +32,7 @@
 	let textAreaSize = $state(30);
 	const keyboardHelper = (e: KeyboardEvent) => {
 		if (e.key == 'Enter' && !e.shiftKey) {
+			e.preventDefault();
 			submitButton?.click();
 		}
 	};
