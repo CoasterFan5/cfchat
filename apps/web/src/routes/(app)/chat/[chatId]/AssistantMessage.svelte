@@ -3,9 +3,11 @@
 	import Markdown from './Markdown.svelte';
 
 	const {
-		message
+		message,
+		mountCallback
 	}: {
 		message: UIMessage;
+		mountCallback: () => void;
 	} = $props();
 </script>
 
@@ -13,7 +15,7 @@
 	<div class="aiMessage">
 		{#each message.parts as part, partIndex (partIndex)}
 			{#if part.type == 'text'}
-				<Markdown markdown={part.text} />
+				<Markdown markdown={part.text} {mountCallback} />
 			{/if}
 		{/each}
 	</div>

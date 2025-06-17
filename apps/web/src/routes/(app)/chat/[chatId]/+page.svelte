@@ -3,8 +3,7 @@
 	import ChatInput from '$lib/components/ChatInput.svelte';
 	import AssistantMessage from './AssistantMessage.svelte';
 	import type { PageData } from './$types';
-	import { onMount } from 'svelte';
-	import type { Attachment } from 'svelte/attachments';
+	import { tick } from 'svelte';
 	import { getUserContext } from '$lib/contex.svelte';
 
 	const {
@@ -50,20 +49,19 @@
 		}
 	});
 
-	onMount(() => {
-		console.log('scrolling');
-		bottomAnchor?.scrollIntoView();
-	});
-
-	const scrollToElement: Attachment = (node) => {
-		node.scrollIntoView();
+	const scrollToBottom = () => {
+		tick().then(() => {
+			if (chatWrap) {
+				chatWrap.scrollTop = chatWrap.scrollHeight;
+			}
+		});
 	};
 
-	let bottomAnchor: HTMLSpanElement | undefined = $state();
+	let chatWrap: HTMLDivElement | undefined = $state();
 </script>
 
 <div class="wrap">
-	<div class="chatWrap">
+	<div class="chatWrap" bind:this={chatWrap}>
 		<div class="chatLog">
 			{#each chat.messages as message, index (index)}
 				{#if message.role == 'user'}
@@ -73,9 +71,8 @@
 						</div>
 					</div>
 				{:else if message.role == 'assistant'}
-					<AssistantMessage {message} />
+					<AssistantMessage {message} mountCallback={scrollToBottom} />
 				{/if}
-				<span class="b" {@attach scrollToElement}></span>
 			{/each}
 		</div>
 	</div>

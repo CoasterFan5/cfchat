@@ -12,7 +12,7 @@
 	import CSharpIcon from '~icons/devicon/csharp';
 	import RustIcon from '~icons/devicon/rust';
 
-	import { codeToTokens, bundledLanguages, type BundledLanguage } from 'shiki';
+	import { codeToTokens, bundledLanguages, type BundledLanguage, type TokensResult } from 'shiki';
 	import 'highlight.js/styles/atom-one-dark.css';
 	import type { Component } from 'svelte';
 	import type { SVGAttributes } from 'svelte/elements';
@@ -48,25 +48,32 @@
 
 	const {
 		code,
-		language
+		language,
+		mountCallback
 	}: {
 		code: string;
 		language?: string | null;
+		mountCallback: () => void;
 	} = $props();
 
-	let tokensPromise = $derived(
+	let tokens: TokensResult | undefined = $state(undefined);
+
+	$effect(() => {
 		codeToTokens(code, {
 			lang: getSupportedLanguage(language),
 			theme: 'vesper'
-		})
-	);
+		}).then((v) => {
+			tokens = v;
+			mountCallback();
+		});
+	});
 
 	const copyText = () => {
 		navigator.clipboard.writeText(code);
 	};
 </script>
 
-{#await tokensPromise}Loading Code Block{:then tokens}
+{#if tokens}
 	{@const lang = tokens.grammarState?.lang}
 	{@const Icon = getLanguageIcon(lang)}
 	<div class="c" style="background: {tokens.bg}">
@@ -87,7 +94,7 @@
 						>{/each}<br />{/each}</code
 			></pre>
 	</div>
-{/await}
+{/if}
 
 <style lang="scss">
 	.c {

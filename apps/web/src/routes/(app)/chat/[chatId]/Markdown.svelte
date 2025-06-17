@@ -17,9 +17,11 @@
 	import Codeblock from './Codeblock.svelte';
 	import { fade } from 'svelte/transition';
 	const {
-		markdown
+		markdown,
+		mountCallback
 	}: {
 		markdown: string;
+		mountCallback: () => void;
 	} = $props();
 
 	let root = $derived(fromMarkdown(markdown));
@@ -74,7 +76,7 @@
 {/snippet}
 
 {#snippet codeRender(node: Code)}
-	<Codeblock code={node.value} language={node.lang} />
+	<Codeblock code={node.value} language={node.lang} {mountCallback} />
 {/snippet}
 
 {#snippet inlineCodeRender(node: Code)}
