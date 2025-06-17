@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Noise from './Noise.svelte';
+	import TrashIcon from '~icons/ph/trash-simple';
 	import { getUserContext } from '$lib/contex.svelte';
+	import { enhance } from '$app/forms';
 
 	const {
 		username = 'Anonymous'
@@ -21,13 +23,21 @@
 	<div class="threads">
 		{#each ctx.threadList as thread (thread.id)}
 			{@const active = ctx.currentThreadId == thread.id}
-			<a class:active href="/chat/{thread.id}" class="threadLink">
-				{#if active}
-					{ctx.currentThreadName}
-				{:else}
-					{thread.name}
-				{/if}
-			</a>
+			<div class="threadLinkWrap">
+				<a class:active href="/chat/{thread.id}" class="threadLink">
+					{#if active}
+						{ctx.currentThreadName}
+					{:else}
+						{thread.name}
+					{/if}
+				</a>
+				<form class="buttons" method="post" action="/chat/{thread.id}?/deleteThread">
+					<input hidden />
+					<button type="submit">
+						<TrashIcon />
+					</button>
+				</form>
+			</div>
 		{/each}
 	</div>
 	<div class="accountInfoWrap">
@@ -98,6 +108,50 @@
 		}
 	}
 
+	.threadLinkWrap {
+		position: relative;
+		width: 100%;
+
+		.buttons {
+			position: absolute;
+			display: none;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			right: 0.25rem;
+			top: 0px;
+			height: 100%;
+			border-radius: 0.25rem;
+			z-index: 100;
+
+			button {
+				background: var(--primary);
+				color: var(--text);
+				outline: 0px;
+				border: 0px;
+				backdrop-filter: blur(10px);
+				aspect-ratio: 1/1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.8rem;
+				border-radius: 0.25rem;
+				cursor: pointer;
+			}
+		}
+
+		&:hover {
+			.buttons {
+				display: flex;
+			}
+
+			.threadLink {
+				opacity: 1;
+				background: var(--background);
+			}
+		}
+	}
+
 	.threadLink {
 		text-decoration: none;
 		color: var(--text);
@@ -113,11 +167,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: start;
-
-		&:hover {
-			opacity: 1;
-			background: var(--background);
-		}
 
 		&.active {
 			background: var(--background);
