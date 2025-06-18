@@ -10,6 +10,7 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
+	"packageManager": "pnpm@9.10.0",
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"esbuild"
