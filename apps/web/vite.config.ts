@@ -7,8 +7,7 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		Icons({
-			compiler: 'svelte',
-			autoInstall: true
+			compiler: 'svelte'
 		})
 	]
 });
