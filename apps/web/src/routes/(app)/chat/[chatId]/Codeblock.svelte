@@ -16,6 +16,7 @@
 	import 'highlight.js/styles/atom-one-dark.css';
 	import type { Component } from 'svelte';
 	import type { SVGAttributes } from 'svelte/elements';
+	import { toast } from '$lib/components/toaster/Toast.svelte';
 
 	const getSupportedLanguage = (lang?: string | null) => {
 		if (bundledLanguages[lang as BundledLanguage]) {
@@ -70,6 +71,7 @@
 
 	const copyText = () => {
 		navigator.clipboard.writeText(code);
+		toast.toast(`Text Copied`);
 	};
 </script>
 
