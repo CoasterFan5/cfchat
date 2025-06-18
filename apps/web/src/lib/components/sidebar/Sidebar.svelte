@@ -41,7 +41,9 @@
 
 <style lang="scss">
 	.sidebar {
+		min-width: 15rem;
 		width: 15rem;
+		max-width: 15rem;
 		background: var(--secondary);
 		height: 100vh;
 		padding: 1rem;

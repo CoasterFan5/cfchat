@@ -49,6 +49,7 @@
 			if (chat.messages[chat.messages.length - 1].role == 'user') {
 				console.log('Last message is from a user');
 				chat.reload();
+				loadingMessage = true;
 				console.log(`reloaded the chat`);
 				reloaded = true;
 			}
@@ -124,7 +125,7 @@
 		flex-grow: 1;
 		width: 100%;
 		max-width: 90ch;
-		padding: 5rem 5rem 6rem 5rem;
+		padding: 5rem 5rem 7rem 5rem;
 		line-height: 1.5rem;
 		gap: 0.5rem;
 	}

@@ -99,19 +99,22 @@
 		width: 100%;
 
 		.buttons {
+			display: flex;
 			position: absolute;
-			display: none;
 			flex-direction: row;
 			align-items: center;
 			justify-content: center;
-			right: 0.25rem;
+			right: -5rem;
+			padding-right: 0.25rem;
 			top: 0px;
 			height: 100%;
 			border-radius: 0.25rem;
 			z-index: 100;
+			background: var(--background);
+			transition: cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.25s;
 
 			button {
-				background: var(--primary);
+				background: transparent;
 				color: var(--text);
 				outline: 0px;
 				border: 0px;
@@ -123,12 +126,17 @@
 				font-size: 0.8rem;
 				border-radius: 0.25rem;
 				cursor: pointer;
+
+				&:hover {
+					color: var(--primary);
+				}
 			}
 		}
 
 		&:hover {
 			.buttons {
 				display: flex;
+				right: 0rem;
 			}
 
 			.threadLink {
