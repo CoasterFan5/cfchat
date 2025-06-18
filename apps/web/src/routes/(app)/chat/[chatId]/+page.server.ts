@@ -72,5 +72,10 @@ export const actions = {
 		}
 
 		await db.delete(threadsTable).where(eq(threadsTable.id, thread.id));
+
+		return {
+			success: true,
+			message: 'Thread Removed'
+		};
 	}
 };

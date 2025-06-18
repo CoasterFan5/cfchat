@@ -1,8 +1,7 @@
 <script lang="ts">
-	import Noise from './Noise.svelte';
-	import TrashIcon from '~icons/ph/trash-simple';
+	import Noise from '../Noise.svelte';
 	import { getUserContext } from '$lib/context.svelte';
-	import { enhance } from '$app/forms';
+	import ThreadButton from './ThreadButton.svelte';
 
 	const {
 		username = 'Anonymous'
@@ -22,22 +21,7 @@
 	</a>
 	<div class="threads">
 		{#each ctx.threadList as thread (thread.id)}
-			{@const active = ctx.currentThreadId == thread.id}
-			<div class="threadLinkWrap">
-				<a class:active href="/chat/{thread.id}" class="threadLink">
-					{#if active}
-						{ctx.currentThreadName}
-					{:else}
-						{thread.name}
-					{/if}
-				</a>
-				<form class="buttons" method="post" action="/chat/{thread.id}?/deleteThread">
-					<input hidden />
-					<button type="submit">
-						<TrashIcon />
-					</button>
-				</form>
-			</div>
+			<ThreadButton name={thread.name} id={thread.id} currentThreadId={ctx.currentThreadId} />
 		{/each}
 	</div>
 	<div class="accountInfoWrap">
@@ -105,71 +89,6 @@
 				border-radius: calc(0.5rem - 1px);
 				background: var(--background);
 			}
-		}
-	}
-
-	.threadLinkWrap {
-		position: relative;
-		width: 100%;
-
-		.buttons {
-			position: absolute;
-			display: none;
-			flex-direction: row;
-			align-items: center;
-			justify-content: center;
-			right: 0.25rem;
-			top: 0px;
-			height: 100%;
-			border-radius: 0.25rem;
-			z-index: 100;
-
-			button {
-				background: var(--primary);
-				color: var(--text);
-				outline: 0px;
-				border: 0px;
-				backdrop-filter: blur(10px);
-				aspect-ratio: 1/1;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 0.8rem;
-				border-radius: 0.25rem;
-				cursor: pointer;
-			}
-		}
-
-		&:hover {
-			.buttons {
-				display: flex;
-			}
-
-			.threadLink {
-				opacity: 1;
-				background: var(--background);
-			}
-		}
-	}
-
-	.threadLink {
-		text-decoration: none;
-		color: var(--text);
-		width: 100%;
-		padding: 0.25rem 0.5rem;
-		border-radius: 0.25rem;
-		opacity: 0.8;
-		transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
-		overflow-x: hidden;
-		text-overflow: ellipsis;
-		text-wrap-mode: nowrap;
-		min-height: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: start;
-
-		&.active {
-			background: var(--background);
 		}
 	}
 
