@@ -1,0 +1,23 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"targetDefaults": {
+		"build": {
+			"cache": true,
+			"outputs": ["{projectRoot}/build"]
+		},
+		"format": {
+			"cache": true
+		},
+		"lint": {
+			"cache": true
+		}
+	},
+	"plugins": [
+		{
+			"plugin": "@nx/eslint/plugin",
+			"options": {
+				"targetName": "eslint:lint"
+			}
+		}
+	]
+}

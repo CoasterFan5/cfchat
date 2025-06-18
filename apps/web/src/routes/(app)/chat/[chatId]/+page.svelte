@@ -47,9 +47,11 @@
 				reloaded = true;
 			}
 		}
+		scrollToBottom();
 	});
 
 	const scrollToBottom = () => {
+		console.log(`scroll`);
 		tick().then(() => {
 			if (chatWrap) {
 				chatWrap.scrollTop = chatWrap.scrollHeight;
