@@ -84,6 +84,7 @@
 		createMode={true}
 		currentModel={data.thread.selectedModel}
 		threadId={data.thread.id}
+		shadowUser={data.user.shadowUser}
 	/>
 </div>
 

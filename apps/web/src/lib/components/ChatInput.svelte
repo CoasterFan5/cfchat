@@ -9,7 +9,8 @@
 		onsubmit,
 		threadId,
 		currentModel = 'gemini-2.5-flash',
-		promptValue = $bindable('')
+		promptValue = $bindable(''),
+		shadowUser
 	}: {
 		onPrompt?: (args: { prompt: string; model: string }) => void;
 		createMode?: boolean;
@@ -17,6 +18,7 @@
 		threadId?: string;
 		currentModel?: string;
 		promptValue?: string;
+		shadowUser: boolean;
 	} = $props();
 
 	const dispatchPrompt = () => {
@@ -46,6 +48,15 @@
 </script>
 
 <div class="wrap">
+	{#if shadowUser}
+		<div class="shadowUserWarning">
+			<div class="shadowUserWarningInner">
+				<span class="warn">Warning!&nbsp;</span><span>
+					You are currently a shadow user. <a href="/auth">Login to sync and save history</a></span
+				>
+			</div>
+		</div>
+	{/if}
 	<div class="innerWrap">
 		<div class="borderDiv">
 			<form class="inner" method="post" action="/chat?/createChat" {onsubmit}>
@@ -122,6 +133,7 @@
 		overflow-y: auto;
 		box-sizing: border-box;
 		padding: 0 0.25rem;
+		transition: height linear 0.05s;
 	}
 
 	.optionHolder {
@@ -149,5 +161,41 @@
 		border-radius: 0.25rem;
 		cursor: pointer;
 		font-size: 1rem;
+	}
+
+	.shadowUserWarning {
+		position: absolute;
+		top: -2rem;
+		z-index: -1;
+		left: 50%;
+		background: var(--secondary);
+		background-image: linear-gradient(-15deg, transparent, rgba(255, 255, 255, 0.2));
+		transform: translateX(-50%);
+		text-wrap-mode: nowrap;
+		border-radius: 0.5rem 0.5rem 0 0;
+		padding: 1px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2.5rem;
+
+		.shadowUserWarningInner {
+			background: var(--secondary);
+			border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
+			padding: calc(0.5rem - 1px);
+			height: 100%;
+
+			.warn {
+				color: var(--primary);
+			}
+
+			a {
+				color: var(--text);
+
+				&:hover {
+					color: var(--primary);
+				}
+			}
+		}
 	}
 </style>

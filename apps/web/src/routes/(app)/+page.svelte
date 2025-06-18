@@ -93,6 +93,7 @@
 		onPrompt={submitFirstChat}
 		createMode={false}
 		currentModel={data.user?.selectedModel || undefined}
+		shadowUser={data.user.shadowUser}
 	/>
 </div>
 

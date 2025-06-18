@@ -4,7 +4,7 @@
 	import ThreadButton from './ThreadButton.svelte';
 
 	const {
-		username = 'Anonymous'
+		username = 'Shadow User'
 	}: {
 		username?: string | null;
 	} = $props();
@@ -29,7 +29,9 @@
 			<div class="accountInfoInnerBorder">
 				<div class="accountInfoInner">
 					<Noise color="var(--secondary)" />
-					<span class="username">{username}</span>
+					<span class="username"
+						>{#if username}{username}{:else}Shadow User{/if}</span
+					>
 					<span class="usage">{ctx.messageLimit - ctx.messagesSent} Messages Remain</span>
 				</div>
 			</div>
