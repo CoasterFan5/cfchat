@@ -3,6 +3,7 @@
 	import { toasts } from './Toast.svelte';
 
 	import CheckIcon from '~icons/ph/check';
+	import XIcon from '~icons/ph/x';
 </script>
 
 <div class="toaster">
@@ -23,7 +24,11 @@
 		>
 			<div class="toastInner">
 				<div class="icon">
-					<CheckIcon />
+					{#if toast.type == 'success'}
+						<CheckIcon />
+					{:else if toast.type == 'error'}
+						<XIcon />
+					{/if}
 				</div>
 				<span>{toast.content}</span>
 			</div>

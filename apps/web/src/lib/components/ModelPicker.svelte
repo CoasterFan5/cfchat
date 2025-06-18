@@ -38,14 +38,19 @@
 			modelName: 'gemini-2.5-flash',
 			provider: 'google'
 		},
-		'gemini-2.5-pro': {
-			humanName: 'Gemini 2.5 Pro',
-			modelName: 'gemini-2.5-pro-exp-03-25',
-			provider: 'google'
-		},
 		'gpt-4.1-nano': {
-			humanName: 'o4 Mini',
-			modelName: 'gemini-2.5-flash',
+			humanName: 'GPT 4.1 Nano',
+			modelName: 'gpt-4.1-nano',
+			provider: 'openai'
+		},
+		'gpt-4.1-mini': {
+			humanName: 'GPT 4.1 Mini',
+			modelName: 'gpt-4.1-mini',
+			provider: 'openai'
+		},
+		'gpt-4o-mini': {
+			humanName: 'GPT 4o Mini',
+			modelName: 'gpt-4o-mini',
 			provider: 'openai'
 		}
 	};

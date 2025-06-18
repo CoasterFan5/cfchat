@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import { tick } from 'svelte';
 	import { getUserContext } from '$lib/context.svelte';
+	import { toast } from '$lib/components/toaster/Toast.svelte';
 
 	const {
 		data
@@ -17,6 +18,10 @@
 	const chat = new Chat({
 		api: `/chat/${data.thread.id}`,
 		maxSteps: 25,
+		onError: (e) => {
+			toast.error(e.message);
+			loadingMessage = false;
+		},
 		onResponse: () => {
 			ctx.messagesSent += 1;
 		},
@@ -29,6 +34,7 @@
 					ctx.currentThreadName = toolParts[0].toolInvocation.args.newName || 'New Thread';
 				}
 			}
+			loadingMessage = false;
 		}
 	});
 	$effect(() => {
@@ -60,6 +66,7 @@
 	};
 
 	let chatWrap: HTMLDivElement | undefined = $state();
+	let loadingMessage = $state(false);
 </script>
 
 <div class="wrap">
@@ -85,6 +92,7 @@
 		currentModel={data.thread.selectedModel}
 		threadId={data.thread.id}
 		shadowUser={data.user.shadowUser}
+		bind:loading={loadingMessage}
 	/>
 </div>
 

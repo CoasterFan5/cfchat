@@ -1,15 +1,20 @@
 type ToastId = string;
 
+export const toastTypes = ['success', 'error', 'loading'] as const;
+type ToastType = (typeof toastTypes)[number];
+
 export const toasts: {
 	id: ToastId;
 	content: string;
+	type: ToastType;
 }[] = $state([]);
 
-const addToast = (content: string) => {
+const addToast = (content: string, type: ToastType) => {
 	const id: ToastId = Math.floor(Math.random() * 1_000_000_000).toString(16);
 	const newToast = {
 		id,
-		content
+		content,
+		type
 	};
 
 	toasts.unshift(newToast);
@@ -30,5 +35,6 @@ const addToast = (content: string) => {
 };
 
 export const toast = {
-	toast: addToast
+	toast: (content: string) => addToast(content, 'success'),
+	error: (content: string) => addToast(content, 'error')
 };

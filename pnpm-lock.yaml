@@ -106,6 +106,9 @@ importers:
       '@eslint/js':
         specifier: ^9.18.0
         version: 9.29.0
+      '@iconify-json':
+        specifier: link:@iconify-json
+        version: link:@iconify-json
       '@iconify-json/devicon':
         specifier: ^1.2.29
         version: 1.2.29

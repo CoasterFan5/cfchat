@@ -21,7 +21,8 @@ const models: Record<string, () => LanguageModelV1> = {
 	'gemini-2.5-pro': () => {
 		return googleProvider('gemini-2.5-pro-preview-05-06');
 	},
-	'gpt-4.1-nano': () => openaiProvider('gpt-4.1-nano')
+	'gpt-4.1-nano': () => openaiProvider('gpt-4.1-nano'),
+	'gpt-04': () => openaiProvider('gpt-4.1-nano')
 };
 
 export const getModel = (modelName: string) => {

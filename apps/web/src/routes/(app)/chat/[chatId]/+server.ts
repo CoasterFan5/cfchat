@@ -23,16 +23,12 @@ export const POST = async ({ request, params, cookies }) => {
 	}
 
 	if (user.messagesSent >= user.messageLimit) {
-		return error(400, {
-			message: 'Message Limit Reached'
-		});
+		return error(400, 'Message Limit Reached');
 	}
 
 	const chatInfo = await chatInfoPromise;
 	if (!chatInfo[0]) {
-		return error(404, {
-			message: 'Chat not found'
-		});
+		return error(404, 'Chat not found');
 	}
 	console.log(chatInfo);
 	const { messages } = await requestJsonPromise;
@@ -96,7 +92,8 @@ export const POST = async ({ request, params, cookies }) => {
 		},
 		toolChoice: 'auto',
 		onError: (e) => {
-			console.error(e);
+			console.warn(e);
+			return error(500, 'An error occured');
 		},
 		onFinish: async ({ response }) => {
 			const newMessagesField = appendResponseMessages({

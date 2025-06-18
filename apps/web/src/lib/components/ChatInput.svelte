@@ -1,5 +1,6 @@
 <script lang="ts">
 	import UpArrow from '~icons/ph/arrow-up';
+	import LoadingIcon from '~icons/svg-spinners/ring-resize';
 	import type { ChangeEventHandler, EventHandler } from 'svelte/elements';
 	import ModelPicker from './ModelPicker.svelte';
 
@@ -10,7 +11,8 @@
 		threadId,
 		currentModel = 'gemini-2.5-flash',
 		promptValue = $bindable(''),
-		shadowUser
+		shadowUser,
+		loading = $bindable(false)
 	}: {
 		onPrompt?: (args: { prompt: string; model: string }) => void;
 		createMode?: boolean;
@@ -19,6 +21,7 @@
 		currentModel?: string;
 		promptValue?: string;
 		shadowUser: boolean;
+		loading: boolean;
 	} = $props();
 
 	const dispatchPrompt = () => {
@@ -45,6 +48,17 @@
 		textAreaSize = Math.max(30, Math.min(textAreaSize, 250));
 		e.currentTarget.style.height = `${textAreaSize}px`;
 	};
+
+	const onSubmitIntercept: EventHandler<SubmitEvent, HTMLFormElement> = (e) => {
+		if (loading) {
+			e.preventDefault();
+			return;
+		}
+		loading = true;
+		if (onsubmit) {
+			onsubmit(e);
+		}
+	};
 </script>
 
 <div class="wrap">
@@ -59,7 +73,7 @@
 	{/if}
 	<div class="innerWrap">
 		<div class="borderDiv">
-			<form class="inner" method="post" action="/chat?/createChat" {onsubmit}>
+			<form class="inner" method="post" action="/chat?/createChat" onsubmit={onSubmitIntercept}>
 				<textarea
 					name="prompt"
 					class="textInput"
@@ -80,8 +94,13 @@
 							type={createMode ? 'submit' : 'button'}
 							onclick={dispatchPrompt}
 							bind:this={submitButton}
+							disabled={loading}
 						>
-							<UpArrow />
+							{#if loading}
+								<LoadingIcon />
+							{:else}
+								<UpArrow />
+							{/if}
 						</button>
 					</div>
 				</div>
@@ -161,6 +180,11 @@
 		border-radius: 0.25rem;
 		cursor: pointer;
 		font-size: 1rem;
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
 	}
 
 	.shadowUserWarning {
