@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "dotenvx run -- nx run-many -t dev",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "nx run-many -t build"
+		"build": "nx run-many -t build",
+		"format": "nx run-many -t format"
 	},
 	"keywords": [],
 	"author": "",
