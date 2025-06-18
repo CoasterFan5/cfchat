@@ -2,6 +2,11 @@
 CF Chat is a chat app for llms designed to be fast and reliable.
 
 ## Self Host
+### The easy way
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/sQKPyL?referralCode=coaster)
+
+### The hard way
+
 First step is to clone to repo
 
 Second step is to set the environment variables;
