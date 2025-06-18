@@ -4,7 +4,7 @@
 	import AssistantMessage from './AssistantMessage.svelte';
 	import type { PageData } from './$types';
 	import { tick } from 'svelte';
-	import { getUserContext } from '$lib/contex.svelte';
+	import { getUserContext } from '$lib/context.svelte';
 
 	const {
 		data

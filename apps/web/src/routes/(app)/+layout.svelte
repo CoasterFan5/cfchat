@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Sidebar from '$lib/components/Sidebar.svelte';
-	import { getUserContext, setUserContext } from '$lib/contex.svelte';
+	import { getUserContext, setUserContext } from '$lib/context.svelte';
 
 	const { children, data } = $props();
 

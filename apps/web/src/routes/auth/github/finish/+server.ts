@@ -13,7 +13,7 @@ This is a lot, sorry.
 The basic auth principle is this:
 Every user already has a session, even if they are not logged in
 This just uses oAuth and stored identities to either restore a previous account login
-or alternatively assosiate the oAuth identity (which will be created) with the new account.
+or alternatively associate the oAuth identity (which will be created) with the new account.
 */
 
 export const GET: RequestHandler = async ({ url, cookies }) => {
@@ -90,11 +90,11 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 
 	const identity = identityCheck[0];
 	if (identity && identity.user) {
-		// Identity already exists, so log in the user its assosiated with.
+		// Identity already exists, so log in the user its associated with.
 		await createSession(identity.user.id, cookies);
 		throw redirect(303, '/');
 	}
-	//assosiate the current user with this oAuth identity,
+	// associate the current user with this oAuth identity,
 	// dont worry, the user should always exist because we create it in the main layout.server.ts
 	const user = await validateSession(cookies);
 	if (!user) {

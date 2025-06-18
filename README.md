@@ -46,7 +46,7 @@ cd ./apps/web && node build
 4. `pnpm run dev` to start the development web server.
 
 ## Environment variables
-There are a few steps involved in aquiring the correct environment variables:
+There are a few steps involved in acquiring the correct environment variables:
 For the github client id and secret, you will need to create a Github oAuth app that can identify users.
 To get the openAI token, you will need to go to the openAI API dashboard and grab it there.
 To get the google token, head to the gemini ai dashboard and get a token there.

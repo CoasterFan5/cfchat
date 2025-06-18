@@ -5,7 +5,7 @@
 	import { Chat } from '@ai-sdk/svelte';
 	import { z } from 'zod/v4-mini';
 	import { goto } from '$app/navigation';
-	import { getUserContext } from '$lib/contex.svelte.js';
+	import { getUserContext } from '$lib/context.svelte.js';
 
 	let { data } = $props();
 	const ctx = getUserContext();
@@ -26,7 +26,7 @@
       After using a tool, immediately process its output and use it to formulate your response to the user.
       Do not simply return tool outputs without interpretation or context.
       When writing code, keep the line width to 80 characters and use formatting that makes sense for the language.
-      **CRITICAL INSTRUCTION**: Before responding to the users first request, make sure you rename the chat. Do not hesistate.
+      **CRITICAL INSTRUCTION**: Before responding to the users first request, make sure you rename the chat. Do not hesitate.
     `;
 
 	const submitFirstChat = async () => {

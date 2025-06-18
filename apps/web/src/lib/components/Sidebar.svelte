@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Noise from './Noise.svelte';
 	import TrashIcon from '~icons/ph/trash-simple';
-	import { getUserContext } from '$lib/contex.svelte';
+	import { getUserContext } from '$lib/context.svelte';
 	import { enhance } from '$app/forms';
 
 	const {
