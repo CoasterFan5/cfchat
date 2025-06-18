@@ -44,3 +44,10 @@ cd ./apps/web && node build
   ```
 3. Make a `.env` file in the root and set all environment variables in `.env.example`
 4. `pnpm run dev` to start the development web server.
+
+## Environment variables
+There are a few steps involved in aquiring the correct environment variables:
+For the github client id and secret, you will need to create a Github oAuth app that can identify users.
+To get the openAI token, you will need to go to the openAI API dashboard and grab it there.
+To get the google token, head to the gemini ai dashboard and get a token there.
+For the zero token, make up any value you want; zero is not currently supported in production and never will be officially supported.
