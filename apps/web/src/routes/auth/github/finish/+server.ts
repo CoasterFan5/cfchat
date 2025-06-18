@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 import { z } from 'zod/v4';
 import { validateSession } from '$lib/server/validateSession';
 import { db } from '$lib/server/db';
-import { userIndetitiesTable, usersTable } from 'database/schema';
+import { threadsTable, userIndetitiesTable, usersTable } from 'database/schema';
 import { and, eq } from 'drizzle-orm';
 import { createSession } from '$lib/server/createSession';
 
@@ -22,6 +22,13 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 	if (code == null) {
 		return error(400, {
 			message: 'Invalid Code'
+		});
+	}
+
+	const user = await validateSession(cookies);
+	if (!user) {
+		return error(401, {
+			message: 'No account'
 		});
 	}
 
@@ -91,17 +98,19 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 	const identity = identityCheck[0];
 	if (identity && identity.user) {
 		// Identity already exists, so log in the user its associated with.
+		// Also merge the two accounts by switching everything from the shadow user to the main user
+		await db
+			.update(threadsTable)
+			.set({
+				userId: identity.user.id
+			})
+			.where(eq(threadsTable.userId, user.id));
 		await createSession(identity.user.id, cookies);
 		throw redirect(303, '/');
 	}
 	// associate the current user with this oAuth identity,
 	// dont worry, the user should always exist because we create it in the main layout.server.ts
-	const user = await validateSession(cookies);
-	if (!user) {
-		return error(401, {
-			message: 'No account'
-		});
-	}
+
 	await db.insert(userIndetitiesTable).values({
 		userId: user.id,
 		provider: 'github',
