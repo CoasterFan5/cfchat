@@ -109,7 +109,7 @@
 				delay: 0,
 				duration: 100,
 				x: 0,
-				y: 50
+				y: 20
 			}}
 		>
 			<div class="floatingPickerInnerWrap">
