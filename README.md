@@ -5,40 +5,47 @@ CF Chat is a chat app for llms designed to be fast and reliable.
 ### The easy way
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/sQKPyL?referralCode=coaster)
 
+**Note on railway pricing:** Cost will depend on usage, [my instance](https://chat.coasterfan5.com) costs ~ $1-2 a month at the moment
 ### The hard way
 
-First step is to clone to repo
+1.  clone to Repo
 
-Second step is to set the environment variables;
+2. Setup a postgres database somewhere.
+
+3. Set the environment variables: (Check the environment variables section for more details)
+  ```bash
+  DATABASE_URL="postgres://root:mysecretpassword@localhost:5432/local"
+
+  # Models
+  GOOGLE_TOKEN=""
+  OPENAI_TOKEN=""
+
+  # Auth
+  ZERO_TOKEN="cH9xnpOU6enOHzjBmlBLfxMe1p-Gez5gkMWaO-PtkjI" # This is fine btw
+  ZERO_APP="t3clonelocal"
+
+  GITHUB_CLIENT_ID=""
+  GITHUB_CLIENT_SECRET=""
+  ```
+4. Install node modules:
 ```bash
-DATABASE_URL="postgres://root:mysecretpassword@localhost:5432/local"
-
-# Models
-GOOGLE_TOKEN=""
-OPENAI_TOKEN=""
-
-# Auth
-ZERO_TOKEN="cH9xnpOU6enOHzjBmlBLfxMe1p-Gez5gkMWaO-PtkjI" # This is fine btw
-ZERO_APP="t3clonelocal"
-
-GITHUB_CLIENT_ID=""
-GITHUB_CLIENT_SECRET=""
+pnpm install
 ```
 
-Next, run the migrations:
+5. Run the migrations:
 ```bash
 cd ./packages/database
 npx drizzle-kit migrate
 ```
 
-Now, build the web app (technically you can do this first if you want but it dosent really matter)
+6. Build the web app (technically you can do this first if you want but it dosent really matter)
 ```bash
-pnpm run -r build
+nx run-many -t build
 ```
 
 Finally, you can start the build sveltekit app
 ```bash
-cd ./apps/web && node build
+node ./apps/web/build
 ```
 
 ## Getting Started with Development
@@ -52,7 +59,8 @@ cd ./apps/web && node build
 
 ## Environment variables
 There are a few steps involved in acquiring the correct environment variables:
-For the github client id and secret, you will need to create a Github oAuth app that can identify users.
-To get the openAI token, you will need to go to the openAI API dashboard and grab it there.
-To get the google token, head to the gemini ai dashboard and get a token there.
-For the zero token, make up any value you want; zero is not currently supported in production and never will be officially supported.
+- For the github client id and secret, you will need to create a Github oAuth app that can identify users.
+
+- To get the openAI token, you will need to go to the openAI API dashboard and grab it there.
+- To get the google token, head to the google ai dashboard and get a token there.
+- For the zero token, make up any value you want; zero is not currently supported in production and never will be officially supported.
