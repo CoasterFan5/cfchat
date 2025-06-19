@@ -2,7 +2,7 @@ import { actionHelper } from '$lib/server/actionHelper.js';
 import { db } from '$lib/server/db/index.js';
 import { threadsTable } from 'database/schema';
 import { validateSession } from '$lib/server/validateSession';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod/v4';
 
@@ -50,32 +50,5 @@ export const actions = {
 				selectedModel: model
 			});
 		}
-	),
-	deleteThread: async ({ cookies, params }) => {
-		const user = await validateSession(cookies);
-		if (!user) {
-			return error(400, {
-				message: 'No Account'
-			});
-		}
-
-		const threadArray = await db
-			.select()
-			.from(threadsTable)
-			.where(and(eq(threadsTable.id, params.chatId), eq(threadsTable.userId, user.id)));
-
-		const thread = threadArray[0];
-		if (!thread) {
-			return error(404, {
-				message: 'No Thread'
-			});
-		}
-
-		await db.delete(threadsTable).where(eq(threadsTable.id, thread.id));
-
-		return {
-			success: true,
-			message: 'Thread Removed'
-		};
-	}
+	)
 };

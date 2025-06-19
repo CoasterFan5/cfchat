@@ -3,9 +3,9 @@
 	import Modal from '../modal/Modal.svelte';
 	import Button from '../Button.svelte';
 	import ModalActionsRow from '../modal/ModalActionsRow.svelte';
-	import { enhance } from '$app/forms';
 	import { getUserContext } from '$lib/context.svelte';
 	import { goto } from '$app/navigation';
+	import { toast } from '../toaster/Toast.svelte';
 	const ctx = getUserContext();
 
 	let {
@@ -21,6 +21,22 @@
 	let active = $derived(currentThreadId == id);
 
 	let showingModal = $state(false);
+
+	const deleteThread = async () => {
+		const rq = await fetch(`/chat/${id}/delete`, {
+			method: 'DELETE'
+		});
+		if (rq.status != 200) {
+			toast.error("Couldn't delete thread");
+			return;
+		}
+		ctx.threadList = ctx.threadList.filter((i) => i.id != id);
+		showingModal = false;
+		toast.toast('Thread deleted');
+		if (currentThreadId == id) {
+			goto('/');
+		}
+	};
 </script>
 
 <Modal bind:showing={showingModal}>
@@ -32,26 +48,7 @@
 				showingModal = false;
 			}}>Cancel</Button
 		>
-		<form
-			method="post"
-			action="/chat/{id}?/deleteThread"
-			use:enhance={() => {
-				return async ({ result, update }) => {
-					if (result.type == 'success') {
-						ctx.threadList = ctx.threadList.filter((i) => i.id != id);
-						showingModal = false;
-						if (currentThreadId == id) {
-							goto('/');
-						}
-						await update({
-							invalidateAll: false
-						});
-					}
-				};
-			}}
-		>
-			<Button variation="primary" type="submit">Confirm</Button>
-		</form>
+		<Button onclick={deleteThread} variation="primary" type="submit">Confirm</Button>
 	</ModalActionsRow>
 </Modal>
 
@@ -62,11 +59,14 @@
 		</div>
 	</a>
 	<div class="buttons">
-		<input hidden />
 		<button
-			type="submit"
-			onclick={() => {
-				showingModal = true;
+			type="button"
+			onclick={(e) => {
+				if (e.shiftKey) {
+					deleteThread();
+				} else {
+					showingModal = true;
+				}
 			}}
 		>
 			<TrashIcon />
