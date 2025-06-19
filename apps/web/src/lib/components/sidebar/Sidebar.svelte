@@ -2,6 +2,7 @@
 	import Noise from '../Noise.svelte';
 	import { getUserContext } from '$lib/context.svelte';
 	import ThreadButton from './ThreadButton.svelte';
+	import Searchbar from './Searchbar.svelte';
 
 	const {
 		username = 'Shadow User'
@@ -10,6 +11,8 @@
 	} = $props();
 
 	const ctx = getUserContext();
+
+	let searchValue = $state('');
 </script>
 
 <nav class="sidebar">
@@ -19,9 +22,12 @@
 			<div class="createChatInner">Create Chat</div>
 		</div>
 	</a>
+	<Searchbar bind:value={searchValue} />
 	<div class="threads">
 		{#each ctx.threadList as thread (thread.id)}
-			<ThreadButton name={thread.name} id={thread.id} currentThreadId={ctx.currentThreadId} />
+			{#if thread.name.toLowerCase().includes(searchValue.toLowerCase())}
+				<ThreadButton name={thread.name} id={thread.id} currentThreadId={ctx.currentThreadId} />
+			{/if}
 		{/each}
 	</div>
 	<div class="accountInfoWrap">
@@ -106,6 +112,7 @@
 		gap: 0.25rem;
 		margin-top: 1rem;
 		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	.accountInfoWrap {

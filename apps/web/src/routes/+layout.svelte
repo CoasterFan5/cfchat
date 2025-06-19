@@ -10,8 +10,9 @@
 	:global(body) {
 		--background: #1b1b1b;
 		--text: #f1f1f1;
-
+		--text-50: color-mix(in srgb, var(--text) 50%, transparent 50%);
 		--primary: #ff7518;
+
 		--primary-10: color-mix(in srgb, var(--primary) 10%, transparent 90%);
 		--secondary: #2f2f2f;
 

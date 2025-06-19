@@ -57,7 +57,9 @@
 
 <div class="threadLinkWrap">
 	<a class:active href="/chat/{id}" class="threadLink">
-		{name}
+		<div class="threadLinkText">
+			{name}
+		</div>
 	</a>
 	<div class="buttons">
 		<input hidden />
@@ -80,9 +82,11 @@
 		padding: 0.25rem 0.5rem;
 		border-radius: 0.25rem;
 		opacity: 0.8;
+		min-width: 0;
 		transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
-		overflow-x: hidden;
-		text-overflow: ellipsis;
+
+		white-space: nowrap;
+		overflow: hidden;
 		text-wrap-mode: nowrap;
 		min-height: 2rem;
 		display: flex;
@@ -94,7 +98,14 @@
 		}
 	}
 
+	.threadLinkText {
+		width: 100%;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+	}
+
 	.threadLinkWrap {
+		display: inline-block;
 		position: relative;
 		width: 100%;
 
