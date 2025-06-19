@@ -50,8 +50,7 @@
 	};
 
 	const onSubmitIntercept: EventHandler<SubmitEvent, HTMLFormElement> = (e) => {
-		console.log(promptValue);
-		if (!e.currentTarget.nodeValue || e.currentTarget.nodeValue.length < 1) {
+		if (disabled) {
 			e.preventDefault();
 			return;
 		}
