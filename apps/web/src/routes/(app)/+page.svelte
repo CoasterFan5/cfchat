@@ -6,6 +6,8 @@
 	import { z } from 'zod/v4-mini';
 	import { goto } from '$app/navigation';
 	import { getUserContext } from '$lib/context.svelte.js';
+	import { page } from '$app/state';
+	import { tick } from 'svelte';
 
 	let { data } = $props();
 	const ctx = getUserContext();
@@ -77,6 +79,21 @@
 		});
 		goto(`/chat/${res.data.newThreadId}`);
 	};
+
+	let hasDoneSubmitFromSeach = false;
+	$effect(() => {
+		if (hasDoneSubmitFromSeach) {
+			return;
+		}
+		tick().then(() => {
+			const q = page.url.searchParams.get('q');
+			if (q != null) {
+				chat.input = q;
+				submitFirstChat();
+			}
+			hasDoneSubmitFromSeach = true;
+		});
+	});
 </script>
 
 <div class="newChat">
