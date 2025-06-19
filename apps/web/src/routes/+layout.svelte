@@ -1,8 +1,10 @@
 <script lang="ts">
+	import Toaster from '$lib/components/toaster/Toaster.svelte';
 	import '$lib/global.scss';
 	const { children } = $props();
 </script>
 
+<Toaster />
 {@render children?.()}
 
 <style lang="scss">

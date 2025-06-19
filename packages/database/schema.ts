@@ -41,3 +41,11 @@ export const threadsTable = pgTable('threads', {
 	createdAt: timestamp().notNull().defaultNow(),
 	messages: text().notNull().default('[]')
 });
+
+export const giftsTable = pgTable('gifts', {
+	id: text()
+		.primaryKey()
+		.$defaultFn(() => cuid()),
+	messageCount: integer().notNull().default(50),
+	uses: integer().notNull().default(1)
+});

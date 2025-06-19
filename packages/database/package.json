@@ -5,7 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "npx drizzle-kit studio"
+		"dev": "npx drizzle-kit studio",
+		"generate": "npx drizzle-kit generate",
+		"migrate": "npx drizzle-kit migrate"
 	},
 	"keywords": [],
 	"author": "",
