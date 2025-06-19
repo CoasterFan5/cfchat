@@ -31,7 +31,12 @@
 			);
 			if (toolParts && toolParts[0]) {
 				if (toolParts[0].type == 'tool-invocation') {
-					ctx.currentThreadName = toolParts[0].toolInvocation.args.newName || 'New Thread';
+					const newName = toolParts[0].toolInvocation.args.newName || 'New Thread';
+					for (const item of ctx.threadList) {
+						if (item.id == data.thread.id) {
+							item.name = newName;
+						}
+					}
 				}
 			}
 			loadingMessage = false;

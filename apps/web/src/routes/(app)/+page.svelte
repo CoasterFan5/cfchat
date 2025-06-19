@@ -10,6 +10,8 @@
 	let { data } = $props();
 	const ctx = getUserContext();
 
+	ctx.currentThreadId = '';
+
 	const chat = new Chat({
 		api: `/chat`,
 		fetch: async () => {
@@ -69,7 +71,7 @@
 		if (res.error) {
 			return;
 		}
-		ctx.threadList.push({
+		ctx.threadList.unshift({
 			id: res.data.newThreadId,
 			name: 'New Thread'
 		});
@@ -94,6 +96,7 @@
 		createMode={false}
 		currentModel={data.user?.selectedModel || undefined}
 		shadowUser={data.user.shadowUser}
+		loading={false}
 	/>
 </div>
 
