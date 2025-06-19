@@ -122,7 +122,7 @@
 			border-radius: 0.25rem;
 			z-index: 100;
 			background: var(--background);
-			transition: cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.25s;
+			transition: cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s;
 
 			button {
 				background: transparent;
