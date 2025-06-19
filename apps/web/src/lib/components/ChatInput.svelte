@@ -25,7 +25,7 @@
 	} = $props();
 
 	const dispatchPrompt = () => {
-		if (onPrompt) {
+		if (onPrompt && !disabled) {
 			onPrompt({
 				prompt: promptValue,
 				model: 'gem-0.5.1'
@@ -50,6 +50,11 @@
 	};
 
 	const onSubmitIntercept: EventHandler<SubmitEvent, HTMLFormElement> = (e) => {
+		console.log(promptValue);
+		if (!e.currentTarget.nodeValue || e.currentTarget.nodeValue.length < 1) {
+			e.preventDefault();
+			return;
+		}
 		if (loading) {
 			e.preventDefault();
 			return;
@@ -59,6 +64,8 @@
 			onsubmit(e);
 		}
 	};
+
+	let disabled = $derived(promptValue.length < 1);
 </script>
 
 <div class="wrap">
@@ -94,7 +101,7 @@
 							type={createMode ? 'submit' : 'button'}
 							onclick={dispatchPrompt}
 							bind:this={submitButton}
-							disabled={loading}
+							disabled={loading || disabled}
 						>
 							{#if loading}
 								<LoadingIcon />
