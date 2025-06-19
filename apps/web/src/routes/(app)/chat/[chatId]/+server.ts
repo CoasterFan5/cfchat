@@ -9,8 +9,6 @@ import { validateSession } from '$lib/server/validateSession.js';
 import { getModel } from '$lib/server/getModel';
 
 export const POST = async ({ request, params, cookies }) => {
-	console.log(`Gateway Request`);
-
 	const userPromise = validateSession(cookies);
 	const chatInfoPromise = db.select().from(threadsTable).where(eq(threadsTable.id, params.chatId));
 	const requestJsonPromise = request.json();
@@ -30,7 +28,6 @@ export const POST = async ({ request, params, cookies }) => {
 	if (!chatInfo[0]) {
 		return error(404, 'Chat not found');
 	}
-	console.log(chatInfo);
 	const { messages } = await requestJsonPromise;
 
 	const res = streamText({
@@ -42,7 +39,6 @@ export const POST = async ({ request, params, cookies }) => {
 				description: 'Get current time',
 				parameters: z.object({}),
 				execute: async () => {
-					console.log('Time');
 					return {
 						time: Date.now().toString()
 					};

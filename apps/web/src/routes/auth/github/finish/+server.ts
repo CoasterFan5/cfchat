@@ -37,8 +37,6 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 	apiReqUrl.searchParams.set('client_secret', GITHUB_CLIENT_SECRET);
 	apiReqUrl.searchParams.set('code', code);
 
-	console.log(apiReqUrl);
-
 	const apiReq = await fetch(apiReqUrl, {
 		method: 'POST',
 		headers: {
@@ -55,7 +53,6 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		.safeParse(res);
 
 	if (parsed.error) {
-		console.warn(`Zod failed to parse body`);
 		console.error(res);
 		return error(500, {
 			message: 'Could not parse oAuth request'

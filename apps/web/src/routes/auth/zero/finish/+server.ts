@@ -64,7 +64,6 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 	let userId: string = identityCheck[0]?.user?.id || '';
 
 	if (identityCheck.length < 1) {
-		console.warn('New User Registration');
 		const newUser = await db
 			.insert(usersTable)
 			.values({

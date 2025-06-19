@@ -77,7 +77,6 @@
 
 		if (fr.status == 200) {
 			loadingModel = false;
-			console.info('Model Switched');
 		} else {
 			console.error(fr);
 			loadingModel = false;

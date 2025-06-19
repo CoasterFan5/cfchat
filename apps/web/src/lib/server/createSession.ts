@@ -22,7 +22,5 @@ export const createSession = async (userId: string, cookies: Cookies) => {
 		expires: new Date(Date.now() + NINETY_DAYS)
 	});
 
-	console.log(newSession[0]);
-
 	return newSession[0];
 };

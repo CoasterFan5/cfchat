@@ -52,10 +52,8 @@
 	$effect(() => {
 		if (!reloaded) {
 			if (chat.messages[chat.messages.length - 1].role == 'user') {
-				console.log('Last message is from a user');
 				chat.reload();
 				loadingMessage = true;
-				console.log(`reloaded the chat`);
 				reloaded = true;
 			}
 		}
@@ -63,7 +61,6 @@
 	});
 
 	const scrollToBottom = () => {
-		console.log(`scroll`);
 		tick().then(() => {
 			if (chatWrap) {
 				chatWrap.scrollTop = chatWrap.scrollHeight;

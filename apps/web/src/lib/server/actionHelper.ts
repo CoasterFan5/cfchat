@@ -17,7 +17,6 @@ export function actionHelper<Shape extends ZodRawShape, Z extends ZodObject<Shap
 
 		if (!parsed.success) {
 			const errorMessage = parsed.error.message || 'Invalid Data';
-			console.error(parsed.error);
 			return fail(400, {
 				success: false,
 				message: errorMessage

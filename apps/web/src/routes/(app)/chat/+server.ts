@@ -8,8 +8,6 @@ export const POST: RequestHandler = async ({ cookies, request }) => {
 	const user = await validateSession(cookies);
 	const messages = await request.json();
 
-	console.log(messages);
-
 	if (!user) {
 		return error(401, {
 			message: 'Invalid Session'
