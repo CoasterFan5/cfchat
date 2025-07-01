@@ -23,7 +23,7 @@ const models: Record<string, () => LanguageModelV1> = {
 	},
 	'gpt-4.1-nano': () => openaiProvider('gpt-4.1-nano'),
 	'gpt-4.1-mini': () => openaiProvider('gpt-4.1-mini-2025-04-14'),
-	'gpt-4o-mini'': () => openaiProvider('o4-mini-2025-04-16'),
+	'gpt-4o-mini': () => openaiProvider('o4-mini-2025-04-16'),
 };
 
 export const getModel = (modelName: string) => {
